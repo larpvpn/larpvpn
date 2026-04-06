@@ -1,18 +1,135 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- 
+        ==========================================================================
+        LARPVPN SYSTEM AUTHORIZATION v4.0.0
+        CORE: LOGIN.HTML [RESTRICTED ACCESS]
+        ==========================================================================
+    -->
     <meta charset="UTF-8">
-    <title>Вход — LarpVPN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login // LarpVPN Secure Gate</title>
+    
+    <!-- External Stylesheet Engine -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="auth-page">
-    <div class="auth-form">
-        <h2>Вход</h2>
-        <input type="text" id="login-input" placeholder="Логин">
-        <input type="password" id="password-input" placeholder="Пароль">
-        <button onclick="login()" class="btn">Войти</button>
-        <p>Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+<body class="auth-wrapper">
+
+    <!-- SYSTEM INITIALIZATION OVERLAY -->
+    <div id="loader" class="preloader-system">
+        <div class="scan-beam"></div>
+        <div class="load-text">VERIFYING NEURAL LINK...</div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- DIGITAL GRID MATRIX -->
+    <div class="grid-overlay"></div>
+
+    <!-- AUTHENTICATION HEADER -->
+    <header style="position: absolute; top: 0; width: 100%; border: none; background: transparent;">
+        <div class="logo-box" onclick="location.href='index.html'" style="margin: 20px auto;">
+            <div class="logo-viewport">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://w3.org">
+                    <!-- Base Letter Structure -->
+                    <path class="lightning-l" d="M30 20V80H75" stroke-linecap="square" />
+                    <!-- Lightning Pulse Effect -->
+                    <g class="bolt-strike">
+                        <path d="M75 10L35 75" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" />
+                        <path d="M75 10L60 7M75 10L78 25" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" />
+                    </g>
+                    <!-- Energy Particles -->
+                    <g class="sparks-emitter">
+                        <circle cx="45" cy="55" r="3" fill="#ffcc00" /><circle cx="45" cy="55" r="2" fill="#00ffa3" />
+                        <circle cx="45" cy="55" r="2.5" fill="#fff" /><circle cx="45" cy="55" r="2.8" fill="#ffcc00" />
+                    </g>
+                </svg>
+            </div>
+            <div class="logo-label">LARP<span>VPN</span></div>
+        </div>
+    </header>
+
+    <!-- MAIN LOGIN UNIT -->
+    <main style="width: 100%; display: flex; justify-content: center; padding: 20px;">
+        <section class="auth-card">
+            <div class="system-badge" style="margin-bottom: 30px;">[ OPERATOR_LOGIN_GATE ]</div>
+            
+            <h2 style="font-family: 'Orbitron'; font-size: 1.5rem; letter-spacing: 4px; margin-bottom: 10px;">ВХОД В СИСТЕМУ</h2>
+            <p style="color: var(--text-mid); font-size: 0.8rem; margin-bottom: 35px; line-height: 1.5;">
+                Введите ваши учетные данные для дешифровки доступа к терминалу.
+            </p>
+
+            <!-- Authentication Fields -->
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+                <div class="form-group">
+                    <label>ИДЕНТИФИКАТОР (LOGIN)</label>
+                    <input type="text" id="auth-login" class="cyber-input" placeholder="User / Email ID" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label>КЛЮЧ ДОСТУПА (PASSWORD)</label>
+                    <input type="password" id="auth-pass" class="cyber-input" placeholder="••••••••">
+                </div>
+
+                <!-- Action Module -->
+                <div style="margin-top: 10px;">
+                    <button onclick="processLogin()" class="btn-premium" style="width: 100%; padding: 20px; font-size: 1rem; letter-spacing: 2px;">
+                        ДЕШИФРОВАТЬ И ВОЙТИ
+                    </button>
+                </div>
+
+                <!-- Support Navigation -->
+                <div style="text-align: center; margin-top: 15px; font-size: 0.85rem;">
+                    <span style="color: var(--text-low);">Нет ключа доступа?</span> 
+                    <a href="register.html" style="color: var(--accent-mint); text-decoration: none; font-weight: bold; margin-left: 8px; border-bottom: 1px dashed var(--accent-mint);">РЕГИСТРАЦИЯ</a>
+                </div>
+            </div>
+
+            <!-- Security Notice Banner -->
+            <div style="margin-top: 45px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 8px; font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--text-low); border: 1px solid var(--border-dim);">
+                <div style="color: var(--warning-orange); margin-bottom: 5px;">[ SECURITY NOTICE ]</div>
+                Все попытки несанкционированного входа фиксируются в глобальном логе. IP-адрес будет передан в службу мониторинга.
+            </div>
+        </section>
+    </main>
+
+    <!-- AUTHENTICATION LOGIC ENGINE -->
+    <script>
+        // Boot Sequence
+        window.addEventListener('load', () => {
+            // Check for existing session
+            if (localStorage.getItem('user')) {
+                window.location.href = 'dashboard.html';
+            }
+
+            // Cleanup Preloader
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 800);
+            }, 1000);
+        });
+
+        // Login Logic Module
+        function processLogin() {
+            const loginInput = document.getElementById('auth-login').value;
+            const passInput = document.getElementById('auth-pass').value;
+
+            // Retrieve Data from Archive
+            const storedUser = JSON.parse(localStorage.getItem('user'));
+
+            // Check Encryption Key Matches
+            if (storedUser && storedUser.login === loginInput && storedUser.password === passInput) {
+                console.log("%c [AUTH] : ACCESS GRANTED. Initializing session... ", "color: #00ffa3; font-weight: bold;");
+                alert("[SYSTEM] : ДОСТУП РАЗРЕШЕН. ПЕРЕХОД В ТЕРМИНАЛ...");
+                window.location.href = 'dashboard.html';
+            } else {
+                console.error("[AUTH] : ACCESS DENIED. Invalid Credentials.");
+                alert("[ERROR 403] : ОШИБКА АВТОРИЗАЦИИ. ПРОВЕРЬТЕ ЛОГИН И ПАРОЛЬ.");
+                
+                // Clear password field on error
+                document.getElementById('auth-pass').value = '';
+            }
+        }
+    </script>
 </body>
 </html>

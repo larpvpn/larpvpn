@@ -1,137 +1,324 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- 
+        ==========================================================================
+        LARPVPN COMMAND CORE v4.0.0 [ENCRYPTED INTERFACE]
+        PROJECT: LARPVPN
+        MODULE: DASHBOARD.HTML
+        SECURITY LEVEL: OPERATOR ALPHA
+        ==========================================================================
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Панель управления | LarpVPN</title>
+    <title>Terminal Core // LarpVPN Access</title>
+    
+    <!-- Link Global Stylesheet Engine -->
     <link rel="stylesheet" href="style.css">
-    <link href="https://googleapis.com" rel="stylesheet">
 </head>
 <body class="dashboard-body">
-    <!-- ЭКРАН ЗАГРУЗКИ -->
-    <div id="loader" class="loader-wrapper">
-        <div class="scanner"></div>
-        <div class="loader-text">INITIALIZING SECURE LINE...</div>
+
+    <!-- INITIALIZATION INTERFACE (PRELOADER) -->
+    <div id="loader" class="preloader-system">
+        <div class="scan-beam"></div>
+        <div class="load-text">ESTABLISHING NEURAL LINK...</div>
+        <div style="font-family: 'JetBrains Mono'; color: #333; font-size: 0.6rem; margin-top: 15px; text-align: center;">
+            > MOUNTING ENCRYPTION VOLUMES [ OK ]<br>
+            > CHECKING IP MASKING INTEGRITY [ OK ]<br>
+            > SYNCING TERMINAL DATA...
+        </div>
     </div>
 
+    <!-- DIGITAL COORDINATE GRID -->
     <div class="grid-overlay"></div>
 
+    <!-- MAIN DASHBOARD HEADER -->
     <header class="dash-header">
-        <div class="logo">LARP<span>VPN</span> <small>/ TERMINAL</small></div>
-        <div class="header-actions">
-            <!-- Кнопка Поддержка с эффектом свечения -->
-            <a href="support.html" class="support-btn-glow">ПОДДЕРЖКА</a>
+        <div class="logo-box" onclick="location.href='index.html'">
+            <div class="logo-viewport">
+                <!-- SVG Логотип: Статичная L и Желтый Трезубец Молнии -->
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://w3.org">
+                    <path class="lightning-l" d="M30 20V80H75" stroke-linecap="square" />
+                    <g class="bolt-strike">
+                        <path d="M75 10L35 75" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" />
+                        <path d="M75 10L60 7M75 10L78 25" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" />
+                    </g>
+                    <g class="sparks-emitter">
+                        <circle cx="45" cy="55" r="3" fill="#ffcc00" /><circle cx="45" cy="55" r="2" fill="#00ffa3" />
+                        <circle cx="45" cy="55" r="2.5" fill="#fff" /><circle cx="45" cy="55" r="2.8" fill="#ffcc00" />
+                    </g>
+                </svg>
+            </div>
+            <div class="logo-label">LARP<span>VPN</span></div>
+        </div>
+
+        <!-- System Navigation Actions -->
+        <div class="nav-container">
+            <a href="support.html" class="nav-link btn-premium">ЦЕНТР ПОДДЕРЖКИ</a>
             <a href="index.html" class="nav-link">ГЛАВНОЕ МЕНЮ</a>
-            <button onclick="logout()" class="logout-btn">ОТКЛЮЧИТЬСЯ</button>
+            <button onclick="processLogout()" class="nav-link" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-weight: 700;">[ ОТКЛЮЧИТЬСЯ ]</button>
         </div>
     </header>
 
-    <main class="dash-container">
-        <!-- ЛЕВАЯ ПАНЕЛЬ -->
-        <aside class="dash-sidebar">
-            <div class="user-profile-card">
-                <div class="avatar-shield">🛡️</div>
-                <h2 id="welcome-msg" class="truncate-text">USER_UNDEFINED</h2>
-                <div class="badge-row">
-                    <span class="badge neon-border">FREE_TIER</span>
-                    <span class="badge">VERIFIED</span>
-                </div>
-            </div>
-
-            <div class="system-stats">
-                <div class="stat-item">
-                    <label>ID СЕССИИ</label>
-                    <span id="session-id">#0000-VPN</span>
-                </div>
-                <div class="stat-item">
-                    <label>ЛОКАЦИЯ</label>
-                    <span>MOSCOW, RU</span>
-                </div>
-                <div class="stat-item">
-                    <label>ШИФРОВАНИЕ</label>
-                    <span style="color: var(--accent);">AES-256-GCM</span>
-                </div>
-            </div>
-        </aside>
-
-        <!-- ПРАВАЯ ПАНЕЛЬ -->
-        <section class="main-stats">
+    <!-- CENTRAL OPERATIONAL AREA -->
+    <main class="container-full dash-layout-engine">
+        
+        <!-- SIDEBAR: OPERATOR INFO & SYSTEM HEALTH -->
+        <aside class="sidebar-panel">
             
-            <!-- БЛОК СМЕНЫ ПАРОЛЯ -->
-            <div class="settings-card" style="margin-bottom: 25px; background: var(--panel); padding: 25px; border-radius: 12px;">
-                <h3 class="premium-font" style="font-size: 0.8rem; margin-bottom: 15px; color: var(--accent);">БЕЗОПАСНОСТЬ / СМЕНА ПАРОЛЯ</h3>
-                <div style="display: flex; gap: 10px;">
-                    <input type="password" id="new-password" placeholder="Новый пароль" style="background: #000; border: 1px solid rgba(0, 255, 163, 0.2); color: #fff; padding: 12px; border-radius: 6px; flex: 1;">
-                    <button onclick="changePassword()" class="btn" style="width: auto; padding: 0 25px;">ОБНОВИТЬ</button>
-                </div>
+            
+            <div class="card-terminal" style="text-align: center;">
+                <div style="font-size: 3.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 15px var(--accent-mint));">🛡️</div>
+                <h2 id="welcome-msg" class="truncate-path" style="font-family: 'Orbitron'; font-size: 1.4rem; margin: 0;">USER_ID_NULL</h2>
+                <div style="margin-top: 15px;"><span class="system-badge">AUTHORIZED OPERATOR</span></div>
             </div>
 
-            <!-- СТАТУС -->
-            <div class="status-banner" style="margin-bottom: 25px;">
-                <div class="status-indicator">
-                    <div class="pulse-red"></div>
-                    <span class="status-text">OFFLINE</span>
-                </div>
-                <p>Критическая ошибка подключения. Проводятся работы на узлах связи.</p>
+            <!-- Real-time Clock Module -->
+            <div class="stat-box-mini">
+                <label>SYSTEM_TIME_STAMP</label>
+                <div id="system-clock" class="value" style="color: var(--accent-mint);">00:00:00</div>
             </div>
 
-            <!-- ДАННЫЕ -->
-            <div class="data-grid">
-                <div class="data-card">
-                    <label>ТРАФИК (IN)</label>
-                    <div class="value">0.00 MB</div>
-                </div>
-                <div class="data-card">
-                    <label>ТРАФИК (OUT)</label>
-                    <div class="value">0.00 MB</div>
-                </div>
-                <div class="data-card">
-                    <label>UPTIME</label>
-                    <div class="value">00:00:00</div>
-                </div>
-                <div class="data-card active-card" style="grid-column: span 3;">
-                    <label>ТЕКУЩИЙ ПЛАН</label>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div class="value">БАЗОВЫЙ (FREE)</div>
-                        <a href="index.html" class="upgrade-link">УЛУЧШИТЬ ТАРИФ →</a>
+            <!-- Connection Analytics -->
+            <div class="card-terminal" style="padding: 25px;">
+                <h4 style="font-family: 'Orbitron'; font-size: 0.75rem; color: var(--accent-mint); margin-bottom: 20px; border-bottom: 1px solid var(--border-dim); padding-bottom: 10px;">NETWORK_STATUS</h4>
+                
+                <div style="display: flex; flex-direction: column; gap: 15px; font-size: 0.8rem;">
+                    <div class="flex-between">
+                        <span style="color: var(--text-mid);">ASSIGNED IP:</span>
+                        <span style="font-family: 'JetBrains Mono';">185.220.101.42</span>
+                    </div>
+                    <div class="flex-between">
+                        <span style="color: var(--text-mid);">PROTOCOL:</span>
+                        <span style="color: var(--info-blue);">X-RAY (VLESS)</span>
+                    </div>
+                    <div class="flex-between">
+                        <span style="color: var(--text-mid);">PING:</span>
+                        <span id="ping-val" style="color: var(--success-green);">24 ms</span>
+                    </div>
+                    <div class="flex-between">
+                        <span style="color: var(--text-mid);">ENCRYPTION:</span>
+                        <span>AES-256-GCM</span>
                     </div>
                 </div>
             </div>
+
+            <!-- Active Plan Card -->
+            <div class="card-terminal" style="background: linear-gradient(135deg, rgba(0, 255, 163, 0.05) 0%, transparent 100%);">
+                <label style="font-size: 0.6rem; color: var(--text-low); text-transform: uppercase;">ТЕКУЩИЙ ТАРИФ</label>
+                <div style="font-family: 'Orbitron'; font-size: 1.2rem; margin: 5px 0; color: var(--accent-mint);">UNLIMITED_ELITE</div>
+                <div style="font-size: 0.7rem; color: var(--text-mid);">ИСТЕКАЕТ: 14.05.2026</div>
+            </div>
+        </aside>
+
+        <!-- MAIN WORKSPACE: CONTROLS & TERMINAL -->
+        <section style="display: flex; flex-direction: column; gap: 30px;">
+            
+            <!-- SECTION 1: SECURITY MANAGEMENT -->
+            <div class="card-terminal">
+                <div class="system-badge" style="margin-bottom: 20px;">[ SECURITY_PROTOCOL_ALPHA ]</div>
+                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--accent-mint); margin-top: 0;">СМЕНА МАСТЕР-ПАРОЛЯ</h3>
+                <p style="color: var(--text-mid); font-size: 0.8rem; margin-bottom: 20px;">Рекомендуется обновлять ключ доступа каждые 30 дней для обеспечения максимальной защиты.</p>
+                
+                <div style="display: flex; gap: 15px;">
+                    <div style="flex: 1;">
+                        <input type="password" id="new-password" class="cyber-input" placeholder="Введите новый зашифрованный ключ">
+                    </div>
+                    <button onclick="processPassChange()" class="btn-premium" style="padding: 0 30px; font-weight: bold;">ОБНОВИТЬ</button>
+                </div>
+            </div>
+
+            <!-- SECTION 2: CONNECTION CORE -->
+            <div class="card-terminal main-control-panel">
+                <div id="vpn-master-btn" class="power-trigger-ring" onclick="toggleVPNStatus()">
+                    <span id="power-indicator">OFF</span>
+                </div>
+                
+                <div style="text-align: center; margin-top: 35px;">
+                    <div id="status-line" style="font-family: 'Orbitron'; font-size: 1.1rem; letter-spacing: 5px; color: var(--text-low);">SYSTEM_READY_TO_BOOT</div>
+                    <div id="session-timer" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--text-mid); margin-top: 10px; opacity: 0;">SESSION: 00:00:00</div>
+                </div>
+
+                <!-- Simulation of dynamic traffic -->
+                <div style="width: 100%; margin-top: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="stat-box-mini">
+                        <label>DOWNLOAD (IN)</label>
+                        <div id="down-val" class="value">0.00 MB</div>
+                    </div>
+                    <div class="stat-box-mini">
+                        <label>UPLOAD (OUT)</label>
+                        <div id="up-val" class="value">0.00 MB</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: SYSTEM LOGS TERMINAL -->
+            <div class="card-terminal" style="background: #000; border-color: #222;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <span style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--text-low);">// SYSTEM_LOG_OUTPUT</span>
+                    <span style="color: var(--accent-mint); font-size: 0.6rem;">NODE: FRANKFURT_DE_4</span>
+                </div>
+                
+                <div id="terminal-logs" style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #444; line-height: 1.8; height: 120px; overflow-y: hidden;">
+                    <div>> BOOTING LARPVPN KERNEL v4.0.0... DONE</div>
+                    <div>> CHECKING ENCRYPTION INTEGRITY... 256-BIT OK</div>
+                    <div>> SCANNING FOR ACTIVE PROXY NODES... 128 FOUND</div>
+                    <div style="color: var(--error-red);">> WARNING: LATENCY SPIKE DETECTED IN NODE_US_EAST</div>
+                    <div id="live-log">> STANDBY_MODE: IDLE</div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: NETWORK NOTICE -->
+            <div style="background: rgba(255, 183, 3, 0.05); border: 1px solid rgba(255, 183, 3, 0.15); border-radius: 12px; padding: 25px;">
+                <div style="color: var(--warning-orange); font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px;">[ SYSTEM_ADVISORY ]</div>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-mid); line-height: 1.6;">
+                    Технические работы на магистрали RU-EU. Возможны кратковременные потери пакетов (PL) до 2% в период с 02:00 до 04:00 по МСК. Рекомендуется использовать протокол Trojan для стабильности.
+                </p>
+            </div>
+
         </section>
     </main>
 
+    <!-- INTERNAL LOGIC ENGINE -->
+    <script src="script.js"></script>
     <script>
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (!user) {
-            window.location.href = 'login.html';
-        } else {
-            document.getElementById('welcome-msg').innerText = user.login;
-            document.getElementById('session-id').innerText = '#' + Math.floor(Math.random()*10000) + '-VPN';
-        }
+        /**
+         * DASHBOARD OPERATIONAL LOGIC
+         * Handles counters, clocks, and connection simulations.
+         */
+
+        // Initial Data Loading
+        const operator = JSON.parse(localStorage.getItem('user'));
+        let sessionActive = false;
+        let sessionSeconds = 0;
+        let trafficDown = 0;
+        let trafficUp = 0;
 
         window.addEventListener('load', () => {
+            // Security check
+            if (!operator) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // UI Init
+            document.getElementById('welcome-msg').innerText = operator.login.toUpperCase();
+            
+            // Kill loader
             setTimeout(() => {
                 const loader = document.getElementById('loader');
-                if (loader) {
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.style.display = 'none', 500);
-                }
-            }, 1200);
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 800);
+            }, 1500);
+
+            // Start System Clock
+            initClock();
+            // Start Log Simulation
+            initLogSimulation();
         });
 
-        function changePassword() {
-            const newPass = document.getElementById('new-password').value;
-            if (newPass.length < 4) return alert("Пароль слишком короткий (мин. 4 символа)!");
-            let u = JSON.parse(localStorage.getItem('user'));
-            u.password = newPass;
-            localStorage.setItem('user', JSON.stringify(u));
-            alert("Пароль успешно обновлен.");
-            document.getElementById('new-password').value = '';
+        function initClock() {
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('system-clock').innerText = now.toLocaleTimeString();
+                
+                if (sessionActive) {
+                    sessionSeconds++;
+                    updateSessionUI();
+                    simulateTraffic();
+                }
+            }, 1000);
         }
 
-        function logout() {
-            localStorage.removeItem('user');
-            window.location.href = 'index.html';
+        function toggleVPNStatus() {
+            const btn = document.getElementById('vpn-master-btn');
+            const statusTxt = document.getElementById('status-line');
+            const timerTxt = document.getElementById('session-timer');
+            const powerTxt = document.getElementById('power-indicator');
+
+            btn.classList.toggle('is-active');
+            sessionActive = btn.classList.contains('is-active');
+
+            if (sessionActive) {
+                powerTxt.innerText = 'ON';
+                statusTxt.innerText = 'ENCRYPTED_TUNNEL_ACTIVE';
+                statusTxt.style.color = 'var(--accent-mint)';
+                timerTxt.style.opacity = '1';
+                addTerminalLog("INITIATING HANDSHAKE... SUCCESS");
+                addTerminalLog("TUNNEL ESTABLISHED VIA AES-256");
+            } else {
+                powerTxt.innerText = 'OFF';
+                statusTxt.innerText = 'CONNECTION_TERMINATED';
+                statusTxt.style.color = 'var(--text-low)';
+                timerTxt.style.opacity = '0';
+                sessionSeconds = 0;
+                addTerminalLog("DISCONNECTING FROM REMOTE NODE...");
+                addTerminalLog("SESSION CLOSED CLEANLY.");
+            }
+        }
+
+        function updateSessionUI() {
+            const h = Math.floor(sessionSeconds / 3600).toString().padStart(2, '0');
+            const m = Math.floor((sessionSeconds % 3600) / 60).toString().padStart(2, '0');
+            const s = (sessionSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('session-timer').innerText = `SESSION: ${h}:${m}:${s}`;
+        }
+
+        function simulateTraffic() {
+            trafficDown += Math.random() * 5;
+            trafficUp += Math.random() * 1.5;
+            document.getElementById('down-val').innerText = trafficDown.toFixed(2) + " MB";
+            document.getElementById('up-val').innerText = trafficUp.toFixed(2) + " MB";
+            
+            // Randomly update ping for "realism"
+            if (sessionSeconds % 5 === 0) {
+                const p = Math.floor(Math.random() * (45 - 20) + 20);
+                document.getElementById('ping-val').innerText = p + " ms";
+            }
+        }
+
+        function addTerminalLog(msg) {
+            const logBox = document.getElementById('terminal-logs');
+            const newLog = document.createElement('div');
+            newLog.innerText = `> ${new Date().toLocaleTimeString()} : ${msg}`;
+            logBox.appendChild(newLog);
+            if (logBox.childNodes.length > 8) logBox.removeChild(logBox.firstChild);
+        }
+
+        function initLogSimulation() {
+            const lines = [
+                "SCRUBBING PACKET HEADERS...",
+                "ROTATING ENCRYPTION KEYS...",
+                "MAINTAINING STEALTH MASK...",
+                "OPTIMIZING NODE ROUTING...",
+                "BYPASSING REGIONAL FIREWALLS..."
+            ];
+            setInterval(() => {
+                if (sessionActive) {
+                    const randomMsg = lines[Math.floor(Math.random() * lines.length)];
+                    addTerminalLog(randomMsg);
+                }
+            }, 6000);
+        }
+
+        function processPassChange() {
+            const pass = document.getElementById('new-password').value;
+            if (pass.length < 5) return alert("[ERROR] : ПАРОЛЬ СЛИШКОМ СЛАБЫЙ.");
+            
+            let u = JSON.parse(localStorage.getItem('user'));
+            u.password = pass;
+            localStorage.setItem('user', JSON.stringify(u));
+            
+            document.getElementById('new-password').value = '';
+            addTerminalLog("SECURITY DATABASE UPDATED: KEY CHANGED.");
+            alert("[SUCCESS] : КЛЮЧ ДОСТУПА ОБНОВЛЕН.");
+        }
+
+        function processLogout() {
+            if (confirm("ВНИМАНИЕ: Сессия будет терминирована. Продолжить?")) {
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            }
         }
     </script>
 </body>
