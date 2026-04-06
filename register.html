@@ -4,54 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LarpVPN | Инициализация нового ID</title>
+    <!-- Подключаем твой основной стиль -->
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Анимация появления */
+        body { animation: fadeIn 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Индикатор сложности */
+        .strength-bar { display: flex; gap: 5px; margin-top: 10px; }
+        .bar-node { height: 4px; flex: 1; background: var(--t-low); transition: 0.3s; }
+    </style>
 </head>
 <body>
     <div class="scanline"></div>
 
     <main style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
         
-        <div class="terminal-card" style="width: 100%; max-width: 500px; border-top: 5px solid var(--accent); animation: fadeIn 0.8s var(--ease-cyber);">
+        <div class="terminal-card" style="width: 100%; max-width: 450px; border-top: 5px solid var(--accent);">
             <div class="logo-wrap" style="justify-content: center; margin-bottom: 40px;">
-                <div class="logo-icon" style="width: 40px; height: 40px;"></div>
+                <div class="logo-icon"></div>
                 <div class="logo-text">NEW<span>_IDENTITY</span></div>
             </div>
 
-            <!-- БЛОК ВЫВОДА ОШИБОК -->
-            <div id="status-display" style="display: none; border: 1px solid var(--error); background: rgba(255, 71, 71, 0.05); color: var(--error); padding: 12px; font-family:'JetBrains Mono'; font-size: 0.7rem; margin-bottom: 25px; text-align: center; border-left: 4px solid var(--error);">
-                [!] SYSTEM_ERROR: ACCESS_DENIED
+            <!-- БЛОК ОШИБОК (скрыт по умолчанию) -->
+            <div id="reg-error" style="display: none; border: 1px solid var(--error); background: rgba(255, 71, 71, 0.05); color: var(--error); padding: 12px; font-family:'JetBrains Mono'; font-size: 0.7rem; margin-bottom: 20px; text-align: center;">
+                [!] SYSTEM_ERROR: DATA_REJECTED
             </div>
 
-            <form id="reg-form" style="display: flex; flex-direction: column; gap: 25px;">
-                
-                <div style="text-align: left;">
-                    <label style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent); letter-spacing: 2px;">01_USER_IDENTIFIER (LOGIN)</label>
-                    <input type="text" id="reg-login" required placeholder="NICKNAME" autocomplete="off" style="margin-top: 8px;">
+            <form id="reg-form">
+                <!-- ЛОГИН -->
+                <div style="margin-bottom: 20px;">
+                    <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); letter-spacing: 2px;">01_IDENTIFIER (LOGIN)</label>
+                    <input type="text" id="reg-login" required placeholder="NICKNAME" autocomplete="off" style="margin-top: 5px;">
                 </div>
 
-                <div style="text-align: left;">
-                    <label style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent); letter-spacing: 2px;">02_MASTER_KEY</label>
-                    <input type="password" id="reg-pass" required placeholder="••••••••••••" style="margin-top: 8px;">
+                <!-- ПАРОЛЬ -->
+                <div style="margin-bottom: 25px;">
+                    <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); letter-spacing: 2px;">02_ACCESS_KEY (PASSWORD)</label>
+                    <input type="password" id="reg-pass" required placeholder="••••••••" style="margin-top: 5px;">
                     
-                    <div style="display: flex; gap: 5px; margin-top: 10px;">
-                        <div class="str-node" style="height: 4px; flex: 1; background: var(--t-low); transition: 0.4s;"></div>
-                        <div class="str-node" style="height: 4px; flex: 1; background: var(--t-low); transition: 0.4s;"></div>
-                        <div class="str-node" style="height: 4px; flex: 1; background: var(--t-low); transition: 0.4s;"></div>
-                        <div class="str-node" style="height: 4px; flex: 1; background: var(--t-low); transition: 0.4s;"></div>
+                    <!-- Индикатор сложности -->
+                    <div class="strength-bar">
+                        <div class="bar-node"></div>
+                        <div class="bar-node"></div>
+                        <div class="bar-node"></div>
+                        <div class="bar-node"></div>
                     </div>
                 </div>
 
-                <div style="text-align: left;">
-                    <label style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent); letter-spacing: 2px;">03_CONFIRM_KEY</label>
-                    <input type="password" id="reg-pass-confirm" required placeholder="••••••••••••" style="margin-top: 8px;">
-                </div>
-
-                <button type="submit" class="btn-main" style="width: 100%; margin-top: 10px; padding: 20px;">CREATE_SECURE_ID</button>
+                <button type="submit" class="btn-main" style="width: 100%; padding: 18px; font-size: 0.8rem;">INITIALIZE_SECURE_ID</button>
             </form>
 
-            <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid var(--accent-border); text-align: center;">
-                <p style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--t-mid);">
-                    УЖЕ В СИСТЕМЕ? <a href="login.html" style="color: var(--accent); text-decoration: none; font-weight: 800;">LOG_IN</a>
+            <div style="margin-top: 35px; text-align: center; border-top: 1px solid var(--accent-border); padding-top: 25px;">
+                <p style="font-family:'JetBrains Mono'; font-size: 0.7rem; color: var(--t-mid);">
+                    УЖЕ ЕСТЬ ДОСТУП? <a href="login.html" style="color: var(--accent); text-decoration: none; font-weight: bold;">LOG_IN_SYSTEM</a>
                 </p>
             </div>
         </div>
@@ -59,64 +66,60 @@
     </main>
 
     <script>
-        const regForm = document.getElementById('reg-form');
-        const loginInput = document.getElementById('reg-login');
-        const pass = document.getElementById('reg-pass');
-        const confirm = document.getElementById('reg-pass-confirm');
-        const statusDisp = document.getElementById('status-display');
-        const nodes = document.querySelectorAll('.str-node');
-
-        // Визуальная сложность пароля
-        pass.addEventListener('input', () => {
-            let val = pass.value;
-            let score = Math.min(4, Math.floor(val.length / 2));
-            nodes.forEach((node, i) => {
-                node.style.background = i < score ? 'var(--accent)' : 'var(--t-low)';
-                node.style.boxShadow = i < score ? '0 0 10px var(--accent)' : 'none';
-            });
-        });
-
-        // ГЛАВНАЯ ЛОГИКА: ПРОВЕРКА ДУБЛИКАТОВ
-        regForm.addEventListener('submit', (e) => {
+        document.getElementById('reg-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            statusDisp.style.display = 'none';
-
-            const userLogin = loginInput.value.trim().toLowerCase();
             
-            // 1. Извлекаем массив всех пользователей из локального хранилища
+            const loginInput = document.getElementById('reg-login');
+            const passInput = document.getElementById('reg-pass');
+            const errorBox = document.getElementById('reg-error');
+            
+            const login = loginInput.value.trim();
+            const pass = passInput.value;
+
+            // 1. Загружаем базу пользователей
             let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
 
-            // 2. Ищем, нет ли уже пользователя с таким логином
-            const isDuplicate = allUsers.some(u => u.login.toLowerCase() === userLogin);
+            // 2. Проверка на уникальность логина
+            const isDuplicate = allUsers.some(u => u.login.toLowerCase() === login.toLowerCase());
 
             if (isDuplicate) {
-                statusDisp.innerText = `[!] ОШИБКА: ИДЕНТИФИКАТОР "${userLogin.toUpperCase()}" УЖЕ ЗАНЯТ`;
-                statusDisp.style.display = 'block';
+                errorBox.innerText = `[!] ОШИБКА: ЛОГИН "${login.toUpperCase()}" УЖЕ ЗАНЯТ`;
+                errorBox.style.display = 'block';
                 loginInput.style.borderColor = 'var(--error)';
                 return;
             }
 
-            // 3. Проверка совпадения паролей
-            if (pass.value !== confirm.value) {
-                statusDisp.innerText = "[!] ОШИБКА: КЛЮЧИ ДОСТУПА НЕ СОВПАДАЮТ";
-                statusDisp.style.display = 'block';
-                return;
-            }
-
-            // 4. Сохранение нового пользователя в "базу"
+            // 3. Сохранение (Логин + Пароль!)
+            // ВАЖНО: Мы сохраняем объект с полем "pass", чтобы логин мог его проверить
             allUsers.push({ 
-                login: loginInput.value, 
-                pass: pass.value,
-                regDate: new Date().toLocaleDateString()
+                login: login, 
+                pass: pass 
             });
-            
+
             localStorage.setItem('allUsers', JSON.stringify(allUsers));
             
-            // Устанавливаем текущую сессию
-            localStorage.setItem('userLogin', loginInput.value);
+            // 4. Установка текущей сессии
+            localStorage.setItem('userLogin', login);
 
-            // Перенаправление
+            // 5. Редирект в Дашборд
             window.location.href = 'dashboard.html';
+        });
+
+        // Визуальный эффект сложности пароля
+        document.getElementById('reg-pass').addEventListener('input', function() {
+            const nodes = document.querySelectorAll('.bar-node');
+            let val = this.value;
+            let score = Math.min(4, Math.floor(val.length / 2));
+            
+            nodes.forEach((n, i) => {
+                if (i < score) {
+                    n.style.background = 'var(--accent)';
+                    n.style.boxShadow = '0 0 10px var(--accent)';
+                } else {
+                    n.style.background = 'var(--t-low)';
+                    n.style.boxShadow = 'none';
+                }
+            });
         });
     </script>
 </body>

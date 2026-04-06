@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LarpVPN | Support Center v4.0</title>
+    <title>LarpVPN | Support Center v7.0</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Анимации и стили для 100% стабильности */
+        #user-view, #admin-view { display: none; }
+        .ticket-item { 
+            border-left: 5px solid var(--accent); 
+            margin-bottom: 25px; 
+            background: rgba(0, 255, 163, 0.02);
+            animation: slideIn 0.4s ease-out;
+        }
+        @keyframes slideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
+        
+        .admin-badge {
+            color: var(--error);
+            border: 1px solid var(--error);
+            padding: 2px 10px;
+            font-family: 'Orbitron';
+            font-size: 0.6rem;
+            box-shadow: 0 0 10px var(--error-glow);
+        }
+    </style>
 </head>
 <body>
     <div class="scanline"></div>
@@ -17,133 +37,145 @@
         <nav id="main-nav">
             <a href="index.html" class="nav-item">ГЛАВНАЯ</a>
             <a href="dashboard.html" class="nav-item">ДАШБОРД</a>
-            <span id="root-status" style="display: none; color: var(--error); font-family: 'Orbitron'; font-size: 0.65rem; border: 1px solid var(--error); padding: 2px 10px; margin-left: 20px; box-shadow: 0 0 10px var(--error-glow);">ROOT_ACCESS_GRANTED</span>
+            <span id="admin-indicator" class="admin-badge" style="display:none;">ROOT_ACCESS</span>
         </nav>
     </header>
 
-    <main style="padding: 50px 8%; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.8s var(--ease-cyber);">
+    <main style="padding: 60px 8%; max-width: 1200px; margin: 0 auto;">
         
-        <!-- 1. ИНТЕРФЕЙС ЮЗЕРА (ОТПРАВКА ТИКЕТА) -->
-        <section id="user-view" class="terminal-card" style="max-width: 800px; margin: 0 auto;">
-            <div class="status-bar"><span>NEW_SECURE_TICKET</span></div>
-            <h2 style="font-family: 'Orbitron'; margin-bottom: 25px; letter-spacing: 3px;">СВЯЗЬ С ОПЕРАТОРОМ</h2>
-            
-            <form id="ticket-form" style="display: flex; flex-direction: column; gap: 25px;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div>
-                        <label style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--accent);">SENDER_ID</label>
-                        <input type="text" id="user-id-readonly" readonly style="opacity: 0.6; cursor: not-allowed;">
-                    </div>
-                    <div>
-                        <label style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--accent);">PRIORITY_LEVEL</label>
-                        <select style="background: rgba(0,0,0,0.5); border: 1px solid var(--accent-border); color: #fff; padding: 12px; font-family:'JetBrains Mono'; outline:none; border-left: 3px solid var(--info);">
-                            <option>LOW_PRIORITY</option>
-                            <option>CRITICAL_ISSUE</option>
-                            <option>BILLING_ERROR</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--accent);">MESSAGE_DATA_ENCRYPTED</label>
-                    <textarea id="ticket-msg" required placeholder="Введите ваше сообщение... Админ ответит в ближайшее время." style="height: 200px; resize: none;"></textarea>
-                </div>
-
-                <button type="submit" class="btn-main" style="width: 100%; padding: 20px;">TRANSMIT_DATA_TO_ROOT</button>
-            </form>
+        <!-- ЧАСТЬ 1: ФОРМА ДЛЯ ЮЗЕРА -->
+        <section id="user-view">
+            <div class="terminal-card" style="max-width: 800px; margin: 0 auto; border-top: 4px solid var(--accent);">
+                <div class="status-bar"><span>SECURE_CHANNEL: ACTIVE</span></div>
+                <h2 style="font-family:'Orbitron'; margin-bottom:30px; letter-spacing:4px;">СВЯЗЬ С ОПЕРАТОРОМ</h2>
+                
+                <form id="ticket-form-main">
+                    <label style="font-family:monospace; font-size:0.7rem; color:var(--accent); display:block; margin-bottom:10px;">ID_ОПЕРАТОРА (ВЫ)</label>
+                    <input type="text" id="my-login" readonly style="opacity:0.6; margin-bottom:20px;">
+                    
+                    <label style="font-family:monospace; font-size:0.7rem; color:var(--accent); display:block; margin-bottom:10px;">MESSAGE_ENCRYPTED</label>
+                    <textarea id="my-message" required placeholder="Опишите проблему... Админ ответит здесь." style="height:200px; margin-bottom:25px;"></textarea>
+                    
+                    <button type="submit" class="btn-main" style="width:100%; padding:20px;">TRANSMIT_DATA</button>
+                </form>
+            </div>
         </section>
 
-        <!-- 2. ИНТЕРФЕЙС АДМИНА (ОЧЕРЕДЬ ЗАПРОСОВ) -->
-        <section id="admin-view" style="display: none;">
-            <div class="terminal-card" style="border-color: var(--warning); margin-bottom: 30px;">
-                <div class="status-bar"><div class="indicator" style="background:var(--warning)"></div><span style="color:var(--warning)">ACTIVE_TICKETS_BUFFER</span></div>
-                <h2 style="font-family: 'Orbitron'; color: var(--warning); letter-spacing: 5px;">ADMIN_TERMINAL_ROOT</h2>
+        <!-- ЧАСТЬ 2: ПАНЕЛЬ ДЛЯ АДМИНА -->
+        <section id="admin-view">
+            <div class="terminal-card" style="border-color: var(--warning); margin-bottom: 40px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h2 style="font-family:'Orbitron'; color:var(--warning);">ADMIN_QUEUE_MANAGER</h2>
+                    <p style="font-size:0.6rem; color:var(--t-low); font-family:monospace; margin-top:5px;">DATABASE: ULTIMATE_DB_v7 | TICKETS: <span id="t-count" style="color:var(--warning)">0</span></p>
+                </div>
+                <button onclick="cleanDB()" class="btn-main" style="border-color:var(--error); color:var(--error); font-size:0.6rem;">WIPE_DB</button>
             </div>
-            
-            <div id="tickets-buffer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 25px;">
-                <!-- Сюда скрипт вставляет тикеты -->
+
+            <div id="tickets-render-zone">
+                <!-- Сюда влетят сообщения -->
             </div>
         </section>
 
     </main>
 
     <script>
+        // ЕДИНЫЙ КЛЮЧ - ОДИН ДЛЯ ВСЕХ
+        const MASTER_KEY = 'ULTIMATE_TICKET_DB_STABLE';
+
         document.addEventListener('DOMContentLoaded', () => {
-            const currentUser = localStorage.getItem('userLogin') || 'ANONYMOUS_USER';
-            const isAdmin = (currentUser.toLowerCase() === 'admin' || currentUser.toLowerCase() === 'klyarskiy@gmail.com');
+            // 1. Кто сейчас залогинен?
+            const user = localStorage.getItem('userLogin') || 'GUEST';
+            const admins = ['admin', 'grisha', 'klyarskiy@gmail.com'];
+            const isAdmin = admins.includes(user.toLowerCase());
 
-            const userView = document.getElementById('user-view');
-            const adminView = document.getElementById('admin-view');
-            const rootStatus = document.getElementById('root-status');
-            const userReadonly = document.getElementById('user-id-readonly');
+            // Элементы
+            const uView = document.getElementById('user-view');
+            const aView = document.getElementById('admin-view');
+            const myLoginInput = document.getElementById('my-login');
+            const indicator = document.getElementById('admin-indicator');
 
-            userReadonly.value = currentUser.toUpperCase();
+            myLoginInput.value = user.toUpperCase();
 
-            // ПЕРЕКЛЮЧЕНИЕ РОЛЕЙ
+            // 2. Показываем нужный интерфейс
             if (isAdmin) {
-                userView.style.display = 'none';
-                adminView.style.display = 'block';
-                rootStatus.style.display = 'inline-block';
-                renderTickets();
+                aView.style.display = 'block';
+                indicator.style.display = 'inline-block';
+                renderForAdmin();
+            } else {
+                uView.style.display = 'block';
             }
 
-            // ОТПРАВКА ЮЗЕРОМ
-            document.getElementById('ticket-form')?.addEventListener('submit', (e) => {
+            // 3. ЛОГИКА ОТПРАВКИ (ДЛЯ ЮЗЕРА)
+            document.getElementById('ticket-form-main')?.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const msg = document.getElementById('ticket-msg').value;
+                const text = document.getElementById('my-message').value;
+
+                if(!text.trim()) return;
+
+                // Берем текущие тикеты
+                let tickets = JSON.parse(localStorage.getItem(MASTER_KEY)) || [];
                 
-                let tickets = JSON.parse(localStorage.getItem('sysTickets')) || [];
+                // Добавляем новый
                 tickets.push({
                     id: Date.now(),
-                    user: currentUser,
-                    content: msg,
+                    sender: user,
+                    body: text,
                     time: new Date().toLocaleTimeString()
                 });
-                
-                localStorage.setItem('sysTickets', JSON.stringify(tickets));
-                alert('[ SYSTEM ]: ТИКЕТ УСПЕШНО ОТПРАВЛЕН В ОЧЕРЕДЬ');
-                e.target.reset();
+
+                // Сохраняем обратно
+                localStorage.setItem(MASTER_KEY, JSON.stringify(tickets));
+
+                alert('[ SYSTEM ]: ТИКЕТ УСПЕШНО ПЕРЕДАН В ОЧЕРЕДЬ');
+                document.getElementById('my-message').value = '';
             });
+        });
 
-            // ОТРИСОВКА ДЛЯ АДМИНА
-            function renderTickets() {
-                const buffer = document.getElementById('tickets-buffer');
-                let tickets = JSON.parse(localStorage.getItem('sysTickets')) || [];
+        // 4. ЛОГИКА ОТОБРАЖЕНИЯ (ДЛЯ АДМИНА)
+        function renderForAdmin() {
+            const container = document.getElementById('tickets-render-zone');
+            const countLabel = document.getElementById('t-count');
+            const data = JSON.parse(localStorage.getItem(MASTER_KEY)) || [];
 
-                if (tickets.length === 0) {
-                    buffer.innerHTML = `<div class="terminal-card" style="grid-column: 1/-1; text-align: center; color: var(--t-low);">[ ОЧЕРЕДЬ ТИКАЕТ ПУСТОТОЙ... ЗАПРОСОВ НЕТ ]</div>`;
-                    return;
-                }
+            countLabel.innerText = data.length;
 
-                buffer.innerHTML = tickets.map(t => `
-                    <div class="terminal-card" style="border-left: 4px solid var(--info); animation: fadeIn 0.4s var(--ease-cyber);">
-                        <div class="status-bar"><span>FROM: ${t.user.toUpperCase()}</span><span style="margin-left: auto;">${t.time}</span></div>
-                        <p style="font-family:'JetBrains Mono'; font-size:0.85rem; margin-bottom: 20px; line-height: 1.6;">${t.content}</p>
-                        <div style="display: flex; gap: 10px;">
-                            <input type="text" placeholder="Введите ответ..." id="reply-${t.id}" style="font-size: 0.7rem; padding: 8px;">
-                            <button onclick="resolveTicket(${t.id})" class="btn-main" style="padding: 10px 20px; font-size: 0.6rem; border-color: var(--info); color: var(--info);">REPLY_&_CLOSE</button>
-                        </div>
-                    </div>
-                `).join('');
+            if (data.length === 0) {
+                container.innerHTML = '<div class="terminal-card" style="text-align:center; padding:50px; color:var(--t-low);">-- ОЧЕРЕДЬ ТИКЕТОВ ПУСТА --</div>';
+                return;
             }
 
-            // ОТВЕТ АДМИНА
-            window.resolveTicket = (id) => {
-                const reply = document.getElementById(`reply-${id}`).value;
-                if (!reply) return alert('Введите текст ответа!');
+            // Рендерим список
+            container.innerHTML = data.reverse().map(t => `
+                <div class="terminal-card ticket-item">
+                    <div class="status-bar">
+                        <span>FROM: <b style="color:#fff">${t.sender.toUpperCase()}</b></span>
+                        <span style="margin-left:auto; opacity:0.6">${t.time}</span>
+                    </div>
+                    <p style="font-family:monospace; font-size:0.9rem; line-height:1.6; margin-bottom:20px;">${t.body}</p>
+                    <div style="display:flex; gap:15px;">
+                        <input type="text" id="reply-${t.id}" placeholder="Ваш ответ..." style="font-size:0.7rem; flex:1;">
+                        <button onclick="resolve('${t.id}')" class="btn-main" style="border-color:var(--info); color:var(--info); font-size:0.6rem; padding:10px 25px;">CLOSE_TICKET</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-                let tickets = JSON.parse(localStorage.getItem('sysTickets'));
-                tickets = tickets.filter(t => t.id !== id);
-                localStorage.setItem('sysTickets', JSON.stringify(tickets));
-                
-                alert(`[ SYSTEM ]: ОТВЕТ ОТПРАВЛЕН ПОЛЬЗОВАТЕЛЮ ${id}`);
-                renderTickets();
-            };
-        });
+        // 5. УДАЛИТЬ/ЗАКРЫТЬ ТИКЕТ
+        window.resolve = (id) => {
+            let data = JSON.parse(localStorage.getItem(MASTER_KEY)) || [];
+            data = data.filter(t => t.id.toString() !== id.toString());
+            localStorage.setItem(MASTER_KEY, JSON.stringify(data));
+            renderForAdmin(); // Обновляем список сразу
+            alert('Тикет закрыт.');
+        };
+
+        // 6. ПОЛНАЯ ОЧИСТКА (ДЛЯ ТЕСТОВ)
+        window.cleanDB = () => {
+            if(confirm('СТЕРЕТЬ ВСЕ ТИКЕТЫ?')) {
+                localStorage.setItem(MASTER_KEY, '[]');
+                renderForAdmin();
+            }
+        };
     </script>
-
-    <style>
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
 </body>
 </html>

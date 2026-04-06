@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LarpVPN | Авторизация в терминале</title>
+    <title>LarpVPN | Авторизация в системе</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body { animation: fadeIn 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        
+        /* Стили лоадера */
+        #loader { display: none; text-align: center; }
+        .spinner {
+            width: 60px; height: 60px;
+            border: 2px solid var(--accent-border);
+            border-top: 2px solid var(--accent);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
     <div class="scanline"></div>
@@ -12,100 +29,94 @@
     <main style="height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
         
         <!-- ЛОАДЕР (ПОЯВЛЯЕТСЯ ПРИ ВХОДЕ) -->
-        <div id="loader" style="display: none; text-align: center; animation: fadeIn 0.5s var(--ease-cyber);">
-            <div class="logo-icon" style="width: 80px; height: 80px; margin: 0 auto 30px; animation: rotate 1.5s linear infinite; filter: drop-shadow(0 0 20px var(--accent));"></div>
-            <h2 class="logo-text" style="letter-spacing: 10px;">DECRYPTING<span>...</span></h2>
-            <p id="load-status" style="font-family: 'JetBrains Mono'; color: var(--accent); margin-top: 15px; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;">SYNCHRONIZING_CORE_KEYS [0%]</p>
+        <div id="loader">
+            <div class="spinner"></div>
+            <h2 class="logo-text">DECRYPTING<span>...</span></h2>
+            <p id="load-status" style="font-family:'JetBrains Mono'; color:var(--accent); font-size:0.7rem; margin-top:10px;">VALIDATING_ACCESS_KEYS</p>
         </div>
 
         <!-- КАРТОЧКА ВХОДА -->
-        <div id="login-card" class="terminal-card" style="width: 100%; max-width: 440px; padding: 60px 45px; border-bottom: 5px solid var(--accent); animation: fadeIn 0.8s var(--ease-cyber);">
-            <div class="logo-wrap" style="justify-content: center; margin-bottom: 45px;">
-                <div class="logo-icon" style="width: 40px; height: 40px;"></div>
-                <div class="logo-text" style="font-size: 1.6rem;">SYSTEM<span>_AUTH</span></div>
+        <div id="login-card" class="terminal-card" style="width: 100%; max-width: 420px; border-bottom: 5px solid var(--accent);">
+            <div class="logo-wrap" style="justify-content: center; margin-bottom: 40px;">
+                <div class="logo-icon"></div>
+                <div class="logo-text">SYSTEM<span>_AUTH</span></div>
             </div>
 
             <!-- СООБЩЕНИЕ ОБ ОШИБКЕ -->
-            <div id="auth-error" style="display: none; border: 1px solid var(--error); background: rgba(255, 71, 71, 0.05); color: var(--error); padding: 12px; font-family:'JetBrains Mono'; font-size: 0.7rem; margin-bottom: 25px; text-align: center; border-left: 4px solid var(--error);">
-                [!] ACCESS_DENIED: INVALID_CREDENTIALS
+            <div id="auth-error" style="display: none; border: 1px solid var(--error); background: rgba(255, 71, 71, 0.05); color: var(--error); padding: 12px; font-family:'JetBrains Mono'; font-size: 0.7rem; margin-bottom: 20px; text-align: center;">
+                [!] ACCESS_DENIED: INVALID_KEY
             </div>
 
-            <form id="auth-form" style="display: flex; flex-direction: column; gap: 25px;">
-                <div style="text-align: left;">
-                    <label style="font-family: 'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); margin-bottom: 10px; display: block; letter-spacing: 2px;">IDENTIFIER (LOGIN)</label>
-                    <input type="text" id="login-id" required placeholder="USER_NICKNAME" autocomplete="off">
+            <form id="auth-form">
+                <div style="margin-bottom: 20px;">
+                    <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); letter-spacing: 2px;">IDENTIFIER</label>
+                    <input type="text" id="login-id" required placeholder="USER_LOGIN" autocomplete="off" style="margin-top: 5px;">
                 </div>
 
-                <div style="text-align: left;">
-                    <label style="font-family: 'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); margin-bottom: 10px; display: block; letter-spacing: 2px;">ACCESS_KEY (PASSWORD)</label>
-                    <input type="password" id="login-pass" required placeholder="••••••••••••">
+                <div style="margin-bottom: 30px;">
+                    <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); letter-spacing: 2px;">ACCESS_KEY</label>
+                    <input type="password" id="login-pass" required placeholder="••••••••" style="margin-top: 5px;">
                 </div>
 
-                <button type="submit" class="btn-main" style="width: 100%; margin-top: 15px; padding: 20px; font-size: 0.9rem;">GRANT_ACCESS</button>
+                <button type="submit" class="btn-main" style="width: 100%; padding: 18px;">GRANT_ACCESS</button>
             </form>
 
-            <div style="margin-top: 40px; padding-top: 25px; border-top: 1px solid var(--accent-border); display: flex; flex-direction: column; gap: 15px; font-size: 0.7rem; font-family: 'JetBrains Mono';">
-                <a href="register.html" style="color: var(--accent); text-decoration: none; font-weight: 800; letter-spacing: 1px; transition: 0.3s;" onmouseover="this.style.textShadow='0 0 10px var(--accent)'" onmouseout="this.style.textShadow='none'">> INITIALIZE_NEW_ID</a>
-                <a href="#" style="color: var(--t-low); text-decoration: none;">> RECOVER_LOST_KEY</a>
+            <div style="margin-top: 35px; border-top: 1px solid var(--accent-border); padding-top: 25px; display: flex; flex-direction: column; gap: 10px;">
+                <a href="register.html" style="color: var(--accent); text-decoration: none; font-size: 0.7rem; font-family:'JetBrains Mono'; font-weight: bold;">> INITIALIZE_NEW_ID</a>
+                <a href="#" style="color: var(--t-low); text-decoration: none; font-size: 0.7rem; font-family:'JetBrains Mono';">> RECOVER_SESSION</a>
             </div>
         </div>
 
     </main>
 
     <script>
-        document.getElementById('auth-form').addEventListener('submit', (e) => {
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const card = document.getElementById('login-card');
-            const loader = document.getElementById('loader');
-            const status = document.getElementById('load-status');
-            const errorBox = document.getElementById('auth-error');
-
+            
             const loginVal = document.getElementById('login-id').value.trim();
             const passVal = document.getElementById('login-pass').value;
+            const errorBox = document.getElementById('auth-error');
+            const card = document.getElementById('login-card');
+            const loader = document.getElementById('loader');
+            const statusText = document.getElementById('load-status');
 
-            // 1. ПРОВЕРКА В "БАЗЕ" (LocalStorage)
+            // 1. Извлекаем "базу данных"
             let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
-            const userFound = allUsers.find(u => u.login.toLowerCase() === loginVal.toLowerCase() && u.pass === passVal);
 
-            if (!userFound) {
-                errorBox.innerText = `[!] ОШИБКА: НЕВЕРНЫЙ ЛОГИН ИЛИ КЛЮЧ`;
+            // 2. Ищем совпадение
+            const userFound = allUsers.find(u => 
+                u.login.toLowerCase() === loginVal.toLowerCase() && u.pass === passVal
+            );
+
+            if (userFound) {
+                // УСПЕХ: Запускаем анимацию входа
+                card.style.display = 'none';
+                loader.style.display = 'block';
+                errorBox.style.display = 'none';
+
+                let progress = 0;
+                const steps = ["CONNECTING_TO_DATABASE", "EXTRACTING_TOKEN", "ACCESS_GRANTED"];
+                
+                let interval = setInterval(() => {
+                    progress += 20;
+                    statusText.innerText = `${steps[Math.min(Math.floor(progress/40), 2)]} [${progress}%]`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        // Сохраняем активного юзера
+                        localStorage.setItem('userLogin', userFound.login);
+                        // Переходим в кабинет
+                        window.location.href = 'dashboard.html';
+                    }
+                }, 300);
+
+            } else {
+                // ОШИБКА
                 errorBox.style.display = 'block';
-                return;
+                errorBox.innerText = "[!] ОШИБКА: НЕВЕРНЫЙ ЛОГИН ИЛИ ПАРОЛЬ";
+                document.getElementById('login-pass').value = '';
             }
-
-            // 2. ЕСЛИ ВСЕ ВЕРНО — ЗАПУСКАЕМ ИМИТАЦИЮ ВХОДА
-            card.style.display = 'none';
-            loader.style.display = 'block';
-            errorBox.style.display = 'none';
-            
-            let progress = 0;
-            const logSteps = [
-                "REQUESTING_ACCESS...",
-                "VALIDATING_USER_ID...",
-                "OPENING_SECURE_TUNNEL...",
-                "ACCESS_GRANTED_BY_CORE"
-            ];
-
-            let interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 25);
-                if (progress > 100) progress = 100;
-                
-                const step = Math.min(Math.floor(progress / 30), logSteps.length - 1);
-                status.innerText = `${logSteps[step]} [${progress}%]`;
-                
-                if (progress === 100) {
-                    clearInterval(interval);
-                    localStorage.setItem('userLogin', userFound.login); // Ставим сессию
-                    setTimeout(() => window.location.href = 'dashboard.html', 600);
-                }
-            }, 450);
         });
     </script>
-
-    <style>
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes rotate { from { transform: rotate(45deg); } to { transform: rotate(405deg); } }
-    </style>
-
 </body>
 </html>
