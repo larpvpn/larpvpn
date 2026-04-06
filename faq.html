@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LarpVPN | FAQ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { animation: pageFadeIn 0.8s var(--ease-cyber); }
+        @keyframes pageFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s var(--ease-cyber);
+        }
+        .faq-item.active { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+        .faq-item.active .arrow { transform: rotate(180deg); color: var(--accent); }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+
+    <header>
+        <div class="logo-wrap">
+            <div class="logo-icon"></div>
+            <div class="logo-text">LARP<span>_FAQ</span></div>
+        </div>
+        <nav>
+            <a href="index.html" class="nav-item">ГЛАВНАЯ</a>
+            <a href="dashboard.html" class="nav-item">ДАШБОРД</a>
+        </nav>
+    </header>
+
+    <main style="padding: 80px 8%; max-width: 1000px; margin: 0 auto;">
+        <h2 style="text-align: center; font-family: 'Orbitron'; letter-spacing: 12px; margin-bottom: 60px; color: var(--accent);">SYSTEM_FAQ</h2>
+
+        <div id="faq-container" style="display: flex; flex-direction: column; gap: 15px;">
+            
+            <!-- 01 (ИЗМЕНЕННЫЙ ВОПРОС) -->
+            <div class="terminal-card faq-item">
+                <div class="status-bar" style="margin: 0; justify-content: space-between; cursor: pointer;">
+                    <span>01 > КАК НАЧАТЬ ПОЛЬЗОВАТЬСЯ ПОСЛЕ ОПЛАТЫ?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p style="padding-top: 20px; border-top: 1px solid var(--accent-border); margin-top: 15px; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--t-mid);">
+                        Для активации доступа выполните три шага: <br>
+                        1. Скачайте официальное приложение LarpVPN. <br>
+                        2. Авторизуйтесь в системе под своим ID. <br>
+                        3. Перейдите в <a href="dashboard.html" style="color:var(--accent)">Dashboard</a> и нажмите кнопку <span style="color:var(--accent)">"ВКЛЮЧИТЬ"</span> для инициализации туннеля.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 02 -->
+            <div class="terminal-card faq-item">
+                <div class="status-bar" style="margin: 0; justify-content: space-between; cursor: pointer;">
+                    <span>02 > МОЖНО ЛИ РЕГИСТРИРОВАТЬ ОДИНАКОВЫЕ ЛОГИНЫ?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p style="padding-top: 20px; border-top: 1px solid var(--accent-border); margin-top: 15px; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--t-mid);">
+                        Нет. Каждый ID в системе LarpVPN уникален. Если логин занят, протокол безопасности отклонит инициализацию нового аккаунта.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 03 -->
+            <div class="terminal-card faq-item">
+                <div class="status-bar" style="margin: 0; justify-content: space-between; cursor: pointer;">
+                    <span>03 > ПОЧЕМУ СТАТУС СЕРВЕРОВ "CONNECTION_LOCKED"?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p style="padding-top: 20px; border-top: 1px solid var(--accent-border); margin-top: 15px; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--t-mid);">
+                        Это означает, что на узлах ведутся технические работы или миграция данных. Обычно доступ восстанавливается в течение 1-2 часов.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 04 -->
+            <div class="terminal-card faq-item">
+                <div class="status-bar" style="margin: 0; justify-content: space-between; cursor: pointer;">
+                    <span>04 > ПОЧЕМУ ТРАФИК В ДАШБОРДЕ 0.00 KB?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p style="padding-top: 20px; border-top: 1px solid var(--accent-border); margin-top: 15px; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--t-mid);">
+                        Счетчик трафика активируется только в момент передачи данных через защищенный туннель или во время запуска сетевой диагностики.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 05 -->
+            <div class="terminal-card faq-item">
+                <div class="status-bar" style="margin: 0; justify-content: space-between; cursor: pointer;">
+                    <span>05 > СОХРАНЯЕТЕ ЛИ ВЫ ЛОГИ МОИХ ДЕЙСТВИЙ?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p style="padding-top: 20px; border-top: 1px solid var(--accent-border); margin-top: 15px; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--t-mid);">
+                        Абсолютно исключено. Мы придерживаемся политики Zero-Logs: история посещений и IP-адреса не хранятся на наших серверах.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.faq-item .status-bar').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const parent = trigger.parentElement;
+                const answer = parent.querySelector('.faq-answer');
+                const isOpen = parent.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(el => {
+                    el.classList.remove('active');
+                    el.querySelector('.faq-answer').style.maxHeight = '0px';
+                });
+
+                if (!isOpen) {
+                    parent.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

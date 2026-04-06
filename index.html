@@ -1,242 +1,157 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- 
-        ==========================================================================
-        LARPVPN MAIN TERMINAL v4.0.0 [ENCRYPTED INTERFACE]
-        CORE: INDEX.HTML
-        ==========================================================================
-    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LarpVPN - Next-Gen Privacy & Security Terminal">
-    <title>LarpVPN // Главный Терминал Доступа</title>
-    
-    <!-- Link Core Stylesheet -->
+    <title>LarpVPN | Твой ключ к свободе</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="scanline"></div>
 
-    <!-- [1] INITIALIZATION SCREEN (PRELOADER) -->
-    <div id="preloader" class="preloader-system">
-        <div class="scan-beam"></div>
-        <div class="load-text">INITIALIZING SECURE SESSION...</div>
-        <div style="font-family: 'JetBrains Mono'; color: #444; font-size: 0.6rem; margin-top: 10px;">
-            [ OK ] KERNEL LOADED <br>
-            [ OK ] ENCRYPTION MODULES READY <br>
-            [ .. ] ESTABLISHING NEURAL LINK...
-        </div>
-    </div>
-
-    <!-- [2] GLOBAL GRID OVERLAY -->
-    <div class="grid-overlay"></div>
-
-    <!-- [3] MAIN HEADER NAVIGATION -->
     <header>
-        <div class="logo-box">
-            <div class="logo-viewport">
-                <!-- SVG Логотип: Статичная L и Желтый Трезубец Молнии -->
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://w3.org">
-                    <!-- Белая буква L -->
-                    <path class="lightning-l" d="M30 20V80H75" stroke-linecap="square" />
-                    
-                    <!-- Желтая Молния (Наискосок) -->
-                    <g class="bolt-strike">
-                        <path d="M75 10L35 75" stroke="#ffcc00" stroke-width="6" stroke-linecap="round""")/>>
-                        <path d="M75 10L60 7M75 10L78 25" stroke="#ffcc00" stroke-width="6" stroke-linecap="round""")/>>
-                    </g>
+        <a href="index.html" class="logo-wrap">
+            <div class="logo-icon"></div>
+            <div class="logo-text">LARP<span>VPN</span></div>
+        </a>
 
-                    <!-- Система Искр -->
-                    <g class="sparks-emitter">
-                        <circle cx="45" cy="55" r="3" fill="#ffcc00" />
-                        <circle cx="45" cy="55" r="2" fill="#00ffa3" />
-                        <circle cx="45" cy="55" r="2.5" fill="#fff" />
-                        <circle cx="45" cy="55" r="2.8" fill="#ffcc00" />
-                    </g>
-                </svg>
-            </div>
-            <div class="logo-label">LARP<span>VPN</span></div>
-        </div>
-
-        <nav id="nav-menu" class="nav-container">
-            <!-- Скрипт script.js динамически вставит ссылки здесь -->
+        <nav id="main-nav">
+            <a href="#pricing" class="nav-item">ТАРИФЫ</a>
+            <a href="#tech" class="nav-item">ТЕХНОЛОГИИ</a>
+            <a href="faq.html" class="nav-item" style="color: var(--info);">FAQ</a>
+            <a href="support.html" class="nav-item" style="color: var(--warning);">ПОДДЕРЖКА</a>
         </nav>
+
+        <div id="auth-zone">
+            <a href="login.html" id="auth-btn" class="btn-main">ВХОД_В_СИСТЕМУ</a>
+        </div>
     </header>
 
-    <!-- [4] HERO SECTION (MINIMALIST & ELITE) -->
-    <main class="container-full">
-        <section class="section-hero">
-            <div class="system-badge">[ AUTHENTICATED ACCESS ONLY ]</div>
-            <h1 class="hero-title">Твой ключ к <br><span>Цифровой Свободе</span></h1>
-            <p class="hero-subtext">
-                Мы создали не просто VPN. Мы создали архитектуру абсолютной невидимости. 
-                Ваш трафик упаковывается в зашифрованные слои, имитирующие стандартные протоколы, 
-                делая ваше присутствие в сети невозможным для анализа.
+    <main style="max-width: 1300px; margin: 0 auto; padding: 60px 20px;">
+        
+        <!-- HERO SECTION -->
+        <section style="text-align: center; padding: 100px 0 60px;">
+            <h1 class="logo-text" style="font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1; margin-bottom: 25px;">
+                LARPVPN — ТВОЙ КЛЮЧ К <br><span>СВОБОДЕ В ИНТЕРНЕТЕ</span>
+            </h1>
+            <p style="color: var(--t-mid); font-family: 'JetBrains Mono'; font-size: 1.1rem; max-width: 800px; margin: 0 auto 45px;">
+                Шифрование AES-256. Протоколы Shadowsocks и WireGuard. <br> 
+                Никаких логов. Полная анонимность сессий.
             </p>
             
-            <!-- Индикаторы статуса (Декоративные) -->
-            <div style="display: flex; justify-content: center; gap: 40px; margin-top: 50px;">
-                <div style="text-align: left;">
-                    <div style="color: var(--accent-mint); font-family: 'Orbitron'; font-size: 1.2rem;">99.9%</div>
-                    <div style="color: var(--text-low); font-size: 0.6rem; text-transform: uppercase;">Uptime Stability</div>
-                </div>
-                <div style="text-align: left;">
-                    <div style="color: var(--accent-mint); font-family: 'Orbitron'; font-size: 1.2rem;">256-bit</div>
-                    <div style="color: var(--text-low); font-size: 0.6rem; text-transform: uppercase;">AES Military Grade</div>
-                </div>
-                <div style="text-align: left;">
-                    <div style="color: var(--accent-mint); font-family: 'Orbitron'; font-size: 1.2rem;">0 Logs</div>
-                    <div style="color: var(--text-low); font-size: 0.6rem; text-transform: uppercase;">Anonymous Policy</div>
+            <div class="terminal-card" style="display: inline-block; border-color: var(--error); border-style: dashed; padding: 15px 40px; background: rgba(255, 71, 71, 0.05);">
+                <div class="status-bar">
+                    <div class="indicator" style="background: var(--error); box-shadow: 0 0 15px var(--error);"></div>
+                    <span class="text-error" style="font-weight: 900; letter-spacing: 2px;">
+                        SYSTEM_ALERT: СЕРВЕРА ВРЕМЕННО НЕДОСТУПНЫ (ТЕХОБСЛУЖИВАНИЕ)
+                    </span>
                 </div>
             </div>
         </section>
 
-        <!-- [5] FEATURES & CORE TECHNOLOGY -->
-        <section style="padding: 100px 0;">
-            <h2 style="font-family: 'Orbitron'; text-align: center; letter-spacing: 5px; margin-bottom: 60px;">CORE_TECHNOLOGIES</h2>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
-                <div class="card-terminal">
-                    <div class="text-accent" style="font-size: 2rem; margin-bottom: 20px;">🛡️</div>
-                    <h3 style="font-family: 'Orbitron'; margin-bottom: 15px;">Stealth Tunneling</h3>
-                    <p style="color: var(--text-mid); line-height: 1.6; font-size: 0.9rem;">
-                        Использование обфускации трафика через Shadowsocks и V2Ray. Ваши данные выглядят как обычный просмотр видео, обходя самые сложные DPI-фильтры.
-                    </p>
-                </div>
-                <div class="card-terminal">
-                    <div class="text-yellow" style="font-size: 2rem; margin-bottom: 20px;">⚡</div>
-                    <h3 style="font-family: 'Orbitron'; margin-bottom: 15px;">Hyper-Speed Link</h3>
-                    <p style="color: var(--text-mid); line-height: 1.6; font-size: 0.9rem;">
-                        Магистральные каналы 10 Gbps в каждой локации. Минимальная задержка (Ping) благодаря интеллектуальной маршрутизации через ближайшие узлы.
-                    </p>
-                </div>
-                <div class="card-terminal">
-                    <div class="text-accent" style="font-size: 2rem; margin-bottom: 20px;">🔐</div>
-                    <h3 style="font-family: 'Orbitron'; margin-bottom: 15px;">No-Trace Infrastructure</h3>
-                    <p style="color: var(--text-mid); line-height: 1.6; font-size: 0.9rem;">
-                        Сервера работают исключительно на RAM-дисках. Логи посещений физически не сохраняются на накопителях, обеспечивая 100% приватность.
-                    </p>
-                </div>
+        <!-- PRICING SECTION -->
+        <h2 id="pricing" style="text-align: center; font-family: 'Orbitron'; letter-spacing: 8px; margin-bottom: 50px; color: var(--accent);">УРОВНИ_ДОСТУПА</h2>
+        <div class="card-grid" style="margin-bottom: 120px;">
+            <div class="terminal-card">
+                <div class="status-bar"><span>LVL_01</span></div>
+                <h2 class="text-accent" style="margin: 10px 0;">100₽</h2>
+                <p style="font-size: 0.65rem; color: var(--t-low); margin-bottom: 20px;">1 МЕСЯЦ / 1 DEV</p>
+                <button onclick="purchasePlan('1_MONTH')" class="btn-main" style="width: 100%;">ВЫБРАТЬ</button>
             </div>
-        </section>
 
-        <!-- [6] PRICING ARCHITECTURE -->
-        <section id="pricing" class="pricing-grid-box">
-            <h2 style="font-family: 'Orbitron'; text-align: center; letter-spacing: 5px; margin-bottom: 40px;">SUBSCRIPTION_LEVELS</h2>
-            <div class="card-terminal" style="padding: 0;">
-                <table class="table-engine">
-                    <thead>
-                        <tr>
-                            <th>ПЛАН ДОСТУПА</th>
-                            <th>СТОИМОСТЬ</th>
-                            <th>УСТРОЙСТВА</th>
-                            <th>ПРОТОКОЛЫ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>LEVEL 01 / BASIC</td>
-                            <td class="text-accent" style="font-weight: 800;">100₽</td>
-                            <td>3 устройства</td>
-                            <td>OpenVPN / WireGuard</td>
-                        </tr>
-                        <tr class="row-highlight">
-                            <td>LEVEL 02 / PRO</td>
-                            <td class="text-accent" style="font-weight: 800;">250₽</td>
-                            <td>5 устройств</td>
-                            <td>All + Shadowsocks</td>
-                        </tr>
-                        <tr>
-                            <td>LEVEL 03 / ELITE</td>
-                            <td class="text-accent" style="font-weight: 800;">450₽</td>
-                            <td>10 устройств</td>
-                            <td>All + VLESS + Reality</td>
-                        </tr>
-                        <tr style="background: linear-gradient(90deg, rgba(0,255,163,0.1), transparent);">
-                            <td>LEVEL 04 / INFINITY</td>
-                            <td class="text-accent" style="font-weight: 800;">600₽</td>
-                            <td>Безлимитно</td>
-                            <td>Full Custom Stack</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="terminal-card">
+                <div class="status-bar"><span>LVL_02</span></div>
+                <h2 class="text-accent" style="margin: 10px 0;">250₽</h2>
+                <p style="font-size: 0.65rem; color: var(--t-low); margin-bottom: 20px;">3 МЕСЯЦА / 3 DEV</p>
+                <button onclick="purchasePlan('3_MONTHS')" class="btn-main" style="width: 100%;">ВЫБРАТЬ</button>
             </div>
-        </section>
 
-        <!-- [7] GLOBAL NODE STATUS (SIMULATED) -->
-        <section style="margin-bottom: 100px;">
-            <h2 style="font-family: 'Orbitron'; text-align: center; letter-spacing: 5px; margin-bottom: 40px;">NETWORK_NODES</h2>
-            <div class="card-terminal" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center;">
-                <div>
-                    <div style="color: var(--accent-mint); font-size: 0.7rem; font-family: 'JetBrains Mono'; margin-bottom: 10px;">DE_FRANKFURT_01</div>
-                    <div class="status-indicator-dot" style="background: var(--success-green); box-shadow: 0 0 10px var(--success-green);"></div>
-                    <span style="font-size: 0.8rem; color: var(--text-mid);">ONLINE</span>
-                </div>
-                <div>
-                    <div style="color: var(--accent-mint); font-size: 0.7rem; font-family: 'JetBrains Mono'; margin-bottom: 10px;">US_NEWYORK_04</div>
-                    <div class="status-indicator-dot" style="background: var(--success-green); box-shadow: 0 0 10px var(--success-green);"></div>
-                    <span style="font-size: 0.8rem; color: var(--text-mid);">ONLINE</span>
-                </div>
-                <div>
-                    <div style="color: var(--accent-mint); font-size: 0.7rem; font-family: 'JetBrains Mono'; margin-bottom: 10px;">JP_TOKYO_02</div>
-                    <div class="status-indicator-dot" style="background: var(--warning-orange); box-shadow: 0 0 10px var(--warning-orange);"></div>
-                    <span style="font-size: 0.8rem; color: var(--text-mid);">HIGH LOAD</span>
-                </div>
-                <div>
-                    <div style="color: var(--accent-mint); font-size: 0.7rem; font-family: 'JetBrains Mono'; margin-bottom: 10px;">NL_AMSTERDAM_01</div>
-                    <div class="status-indicator-dot" style="background: var(--error-red); box-shadow: 0 0 10px var(--error-red);"></div>
-                    <span style="font-size: 0.8rem; color: var(--text-mid);">MAINTENANCE</span>
-                </div>
+            <div class="terminal-card" style="border: 2px solid var(--warning); transform: scale(1.08); z-index: 10;">
+                <div class="status-bar"><div class="indicator" style="background: var(--warning);"></div><span class="text-warning">MOST_POPULAR</span></div>
+                <h2 class="text-warning" style="margin: 10px 0;">450₽</h2>
+                <p style="font-size: 0.65rem; color: var(--t-low); margin-bottom: 20px;">6 МЕСЯЦЕВ / 5 DEV</p>
+                <button onclick="purchasePlan('6_MONTHS')" class="btn-main" style="width: 100%; border-color: var(--warning); color: var(--warning);">ВЫБРАТЬ</button>
             </div>
-        </section>
 
-        <!-- [8] FAQ MODULES -->
-        <section class="faq-grid-wrapper">
-            <div class="faq-element">
-                <h3>Как подключиться после оплаты?</h3>
-                <p>После активации тарифа в личном кабинете вам станет доступен уникальный ключ конфигурации. Вы сможете использовать его в наших приложениях или сторонних клиентах v2ray/Shadowsocks.</p>
+            <div class="terminal-card">
+                <div class="status-bar"><span>LVL_03</span></div>
+                <h2 class="text-accent" style="margin: 10px 0;">600₽</h2>
+                <p style="font-size: 0.65rem; color: var(--t-low); margin-bottom: 20px;">12 МЕСЯЦЕВ / 10 DEV</p>
+                <button onclick="purchasePlan('12_MONTHS')" class="btn-main" style="width: 100%;">ВЫБРАТЬ</button>
             </div>
-            <div class="faq-element">
-                <h3>Влияет ли VPN на скорость интернета?</h3>
-                <p>Наши сервера оптимизированы так, что потеря скорости составляет не более 3-5%. В некоторых случаях (при обходе ограничений провайдера) скорость может даже вырасти.</p>
+
+            <div class="terminal-card">
+                <div class="status-bar"><span>LVL_MAX</span></div>
+                <h2 class="text-accent" style="margin: 10px 0;">1200₽</h2>
+                <p style="font-size: 0.65rem; color: var(--t-low); margin-bottom: 20px;">24 МЕСЯЦА / UNLIMITED</p>
+                <button onclick="purchasePlan('24_MONTHS')" class="btn-main" style="width: 100%;">ВЫБРАТЬ</button>
             </div>
-            <div class="faq-element">
-                <h3>Могу ли я использовать один аккаунт везде?</h3>
-                <p>Да. В зависимости от выбранного плана вы можете одновременно подключить от 3 до неограниченного количества устройств под одной учетной записью.</p>
+        </div>
+
+        <!-- TECH INFO -->
+        <h2 id="tech" style="text-align: center; font-family: 'Orbitron'; letter-spacing: 8px; margin-bottom: 50px;">ТЕХ_СПЕЦИФИКАЦИИ</h2>
+        <section class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 120px;">
+            <div class="terminal-card">
+                <h3 class="text-accent" style="font-family: 'Orbitron'; margin-bottom: 15px;">БЕЗОПАСНОСТЬ</h3>
+                <p style="font-size: 0.85rem; color: var(--t-mid); font-family: 'JetBrains Mono'; line-height: 1.8;">
+                    Мы используем кастомные реализации Shadowsocks и V2Ray. Трафик маскируется под обычный HTTPS, делая его невидимым для систем DPI.
+                </p>
             </div>
-            <div class="faq-element">
-                <h3>Что делать, если VPN перестал работать?</h3>
-                <p>Система автоматически переключает вас на резервные шлюзы. Если проблема сохраняется, наша служба поддержки доступна 24/7 в специальном терминале связи.</p>
+            <div class="terminal-card">
+                <h3 class="text-accent" style="font-family: 'Orbitron'; margin-bottom: 15px;">СКОРОСТЬ</h3>
+                <p style="font-size: 0.85rem; color: var(--t-mid); font-family: 'JetBrains Mono'; line-height: 1.8;">
+                    Наши сервера подключены к каналам 10 Гбит/с. Гарантируем стабильный пинг в играх и отсутствие буферизации в 4K.
+                </p>
             </div>
         </section>
     </main>
 
-    <!-- [9] EMERGENCY FOOTER SYSTEM -->
-    <footer class="emergency-notice-bar">
-        [ WARNING ] : СЕРВЕРА ВРЕМЕННО НЕДОСТУПНЫ — ИНИЦИИРОВАН ГЛОБАЛЬНЫЙ ПЕРЕХОД НА ЯДРО v4.0.0
+    <footer style="text-align: center; padding: 60px 20px; border-top: 1px solid var(--accent-border); color: var(--t-low); font-family: 'JetBrains Mono'; font-size: 0.65rem;">
+        <p>SYSTEM_ENCRYPTED: LARPVPN CORE v5.0</p>
+        <p style="margin: 15px 0;">USER_IP: <span class="text-error">85.249.161.XX</span> | ENCRYPTION: <span class="text-error">FALSE</span></p>
+        <p>© 2024 LARPVPN. Все права защищены. </p>
     </footer>
 
-    <!-- [10] SYSTEM SCRIPTS -->
-    <script src="script.js"></script>
     <script>
-        // Preloader Logic
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 1000);
-            }, 1500); // Симуляция загрузки 1.5 сек
-        });
+        // 1. ЛОГИКА ПОКУПКИ
+        function purchasePlan(planName) {
+            // Сохраняем выбранный тариф
+            localStorage.setItem('userSubscription', planName);
+            // Если юзер не залогинен - на регистрацию, если залогинен - в дашборд
+            if (localStorage.getItem('userLogin')) {
+                window.location.href = 'dashboard.html';
+            } else {
+                window.location.href = 'register.html';
+            }
+        }
 
-        // Плавная прокрутка для якорных ссылок
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+        // 2. ДИНАМИЧЕСКИЙ ХЕДЕР
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = localStorage.getItem('userLogin');
+            const authBtn = document.getElementById('auth-btn');
+            const nav = document.getElementById('main-nav');
+
+            if (user) {
+                authBtn.innerText = 'ВЫХОД';
+                authBtn.style.color = 'var(--error)';
+                authBtn.style.borderColor = 'var(--error)';
+                authBtn.onclick = (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('userLogin');
+                    localStorage.removeItem('userSubscription'); // Очищаем подписку при выходе
+                    window.location.reload();
+                };
+
+                if (!document.getElementById('dash-link')) {
+                    const dash = document.createElement('a');
+                    dash.href = 'dashboard.html';
+                    dash.className = 'nav-item';
+                    dash.id = 'dash-link';
+                    dash.innerText = 'ДАШБОРД';
+                    dash.style.color = 'var(--accent)';
+                    nav.appendChild(dash);
+                }
+            }
         });
     </script>
 </body>

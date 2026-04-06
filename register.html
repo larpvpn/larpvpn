@@ -1,130 +1,123 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- 
-        ==========================================================================
-        LARPVPN IDENTITY CREATION MODULE v4.0.0
-        CORE: REGISTER.HTML [ENCRYPTED DATA]
-        ==========================================================================
-    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration // LarpVPN Identity Node</title>
-    
-    <!-- Core Stylesheet Connection -->
+    <title>LarpVPN | Инициализация нового ID</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="auth-wrapper">
+<body>
+    <div class="scanline"></div>
 
-    <!-- INITIALIZATION OVERLAY -->
-    <div id="loader" class="preloader-system">
-        <div class="scan-beam"></div>
-        <div class="load-text">PREPARING ENCRYPTION KEYS...</div>
-    </div>
-
-    <!-- BACKGROUND GRID MATRIX -->
-    <div class="grid-overlay"></div>
-
-    <!-- AUTHENTICATION HEADER -->
-    <header style="position: absolute; top: 0; width: 100%; border: none; background: transparent;">
-        <div class="logo-box" onclick="location.href='index.html'" style="margin: 20px auto;">
-            <div class="logo-viewport">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://w3.org">
-                    <!-- Base Structure -->
-                    <path class="lightning-l" d="M30 20V80H75" stroke-linecap="square" />
-                    <!-- Lightning Bolt -->
-                    <g class="bolt-strike">
-                        <path d="M75 10L35 75" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" />
-                        <path d="M75 10L60 7M75 10L78 25" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" />
-                    </g>
-                    <!-- Particle Emitter -->
-                    <g class="sparks-emitter">
-                        <circle cx="45" cy="55" r="3" fill="#ffcc00" /><circle cx="45" cy="55" r="2" fill="#00ffa3" />
-                        <circle cx="45" cy="55" r="2.5" fill="#fff" /><circle cx="45" cy="55" r="2.8" fill="#ffcc00" />
-                    </g>
-                </svg>
+    <main style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+        
+        <div class="terminal-card" style="width: 100%; max-width: 500px; border-top: 5px solid var(--accent); animation: fadeIn 0.8s var(--ease-cyber);">
+            <div class="logo-wrap" style="justify-content: center; margin-bottom: 40px;">
+                <div class="logo-icon" style="width: 40px; height: 40px;"></div>
+                <div class="logo-text">NEW<span>_IDENTITY</span></div>
             </div>
-            <div class="logo-label">LARP<span>VPN</span></div>
+
+            <!-- БЛОК ВЫВОДА ОШИБОК -->
+            <div id="status-display" style="display: none; border: 1px solid var(--error); background: rgba(255, 71, 71, 0.05); color: var(--error); padding: 12px; font-family:'JetBrains Mono'; font-size: 0.7rem; margin-bottom: 25px; text-align: center; border-left: 4px solid var(--error);">
+                [!] SYSTEM_ERROR: ACCESS_DENIED
+            </div>
+
+            <form id="reg-form" style="display: flex; flex-direction: column; gap: 25px;">
+                
+                <div style="text-align: left;">
+                    <label style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent); letter-spacing: 2px;">01_USER_IDENTIFIER (LOGIN)</label>
+                    <input type="text" id="reg-login" required placeholder="NICKNAME" autocomplete="off" style="margin-top: 8px;">
+                </div>
+
+                <div style="text-align: left;">
+                    <label style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent); letter-spacing: 2px;">02_MASTER_KEY</label>
+                    <input type="password" id="reg-pass" required placeholder="••••••••••••" style="margin-top: 8px;">
+                    
+                    <div style="display: flex; gap: 5px; margin-top: 10px;">
+                        <div class="str-node" style="height: 4px; flex: 1; background: var(--t-low); transition: 0.4s;"></div>
+                        <div class="str-node" style="height: 4px; flex: 1; background: var(--t-low); transition: 0.4s;"></div>
+                        <div class="str-node" style="height: 4px; flex: 1; background: var(--t-low); transition: 0.4s;"></div>
+                        <div class="str-node" style="height: 4px; flex: 1; background: var(--t-low); transition: 0.4s;"></div>
+                    </div>
+                </div>
+
+                <div style="text-align: left;">
+                    <label style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent); letter-spacing: 2px;">03_CONFIRM_KEY</label>
+                    <input type="password" id="reg-pass-confirm" required placeholder="••••••••••••" style="margin-top: 8px;">
+                </div>
+
+                <button type="submit" class="btn-main" style="width: 100%; margin-top: 10px; padding: 20px;">CREATE_SECURE_ID</button>
+            </form>
+
+            <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid var(--accent-border); text-align: center;">
+                <p style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--t-mid);">
+                    УЖЕ В СИСТЕМЕ? <a href="login.html" style="color: var(--accent); text-decoration: none; font-weight: 800;">LOG_IN</a>
+                </p>
+            </div>
         </div>
-    </header>
 
-    <!-- REGISTRATION CORE UNIT -->
-    <main style="width: 100%; display: flex; justify-content: center; padding: 20px;">
-        <section class="auth-card">
-            <div class="system-badge" style="margin-bottom: 30px;">[ IDENTITY_CREATION_UNIT ]</div>
-            
-            <h2 style="font-family: 'Orbitron'; font-size: 1.5rem; letter-spacing: 3px; margin-bottom: 10px;">РЕГИСТРАЦИЯ</h2>
-            <p style="color: var(--text-mid); font-size: 0.8rem; margin-bottom: 30px; line-height: 1.5;">
-                Создайте зашифрованный профиль для доступа к сети LarpVPN.
-            </p>
-
-            <!-- Inputs Interface -->
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="form-group">
-                    <label>Логин / Email</label>
-                    <input type="email" id="reg-login" class="cyber-input" placeholder="Введите ваш идентификатор">
-                </div>
-
-                <div class="form-group">
-                    <label>Мастер-Пароль</label>
-                    <input type="password" id="reg-pass" class="cyber-input" placeholder="Создайте сложный ключ">
-                </div>
-
-                <div class="form-group">
-                    <label>Подтверждение ключа</label>
-                    <input type="password" id="reg-confirm" class="cyber-input" placeholder="Повторите пароль">
-                </div>
-
-                <!-- Terms Notice -->
-                <div style="font-size: 0.7rem; color: var(--text-low); line-height: 1.4; margin: 10px 0;">
-                    Нажимая кнопку, вы соглашаетесь с [ <span style="color: var(--accent-mint);">POLICY_PROTOCOL_v4</span> ] и подтверждаете использование системы в рамках приватности.
-                </div>
-
-                <!-- Action Button -->
-                <button onclick="processRegistration()" class="btn-premium" style="width: 100%; padding: 18px; font-size: 0.9rem;">
-                    ИНИЦИИРОВАТЬ АККАУНТ
-                </button>
-
-                <!-- Navigation Link -->
-                <div style="text-align: center; margin-top: 20px; font-size: 0.8rem;">
-                    <span style="color: var(--text-mid);">Уже есть доступ?</span> 
-                    <a href="login.html" style="color: var(--accent-mint); text-decoration: none; font-weight: bold; margin-left: 5px;">ВХОД В ТЕРМИНАЛ</a>
-                </div>
-            </div>
-
-            <!-- Terminal Log Decoration -->
-            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-dim); font-family: 'JetBrains Mono'; font-size: 0.6rem; color: #333;">
-                > STACK_INIT: SUCCESS <br>
-                > RSA_KEYS_GEN: PENDING... <br>
-                > IP_ADDR_LOG: MASKED
-            </div>
-        </section>
     </main>
 
-    <!-- IDENTITY LOGIC CORE -->
     <script>
-        // System Initializer
-        window.addEventListener('load', () => {
-            // Check if user is already logged in
-            if (localStorage.getItem('user')) {
-                window.location.href = 'dashboard.html';
-            }
+        const regForm = document.getElementById('reg-form');
+        const loginInput = document.getElementById('reg-login');
+        const pass = document.getElementById('reg-pass');
+        const confirm = document.getElementById('reg-pass-confirm');
+        const statusDisp = document.getElementById('status-display');
+        const nodes = document.querySelectorAll('.str-node');
 
-            // Deactivate Preloader
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 800);
-            }, 1200);
+        // Визуальная сложность пароля
+        pass.addEventListener('input', () => {
+            let val = pass.value;
+            let score = Math.min(4, Math.floor(val.length / 2));
+            nodes.forEach((node, i) => {
+                node.style.background = i < score ? 'var(--accent)' : 'var(--t-low)';
+                node.style.boxShadow = i < score ? '0 0 10px var(--accent)' : 'none';
+            });
         });
 
-        // Main Registration Function
-        function processRegistration() {
-            const login = document.getElementById('reg-login').value;
-            const pass = document.getElementById('reg-pass').value;
-            const confirm = document.getElementById('reg-confirm').value;
+        // ГЛАВНАЯ ЛОГИКА: ПРОВЕРКА ДУБЛИКАТОВ
+        regForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            statusDisp.style.display = 'none';
 
-            // Validation Protocols
-            if (!login || login.length 
+            const userLogin = loginInput.value.trim().toLowerCase();
+            
+            // 1. Извлекаем массив всех пользователей из локального хранилища
+            let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+
+            // 2. Ищем, нет ли уже пользователя с таким логином
+            const isDuplicate = allUsers.some(u => u.login.toLowerCase() === userLogin);
+
+            if (isDuplicate) {
+                statusDisp.innerText = `[!] ОШИБКА: ИДЕНТИФИКАТОР "${userLogin.toUpperCase()}" УЖЕ ЗАНЯТ`;
+                statusDisp.style.display = 'block';
+                loginInput.style.borderColor = 'var(--error)';
+                return;
+            }
+
+            // 3. Проверка совпадения паролей
+            if (pass.value !== confirm.value) {
+                statusDisp.innerText = "[!] ОШИБКА: КЛЮЧИ ДОСТУПА НЕ СОВПАДАЮТ";
+                statusDisp.style.display = 'block';
+                return;
+            }
+
+            // 4. Сохранение нового пользователя в "базу"
+            allUsers.push({ 
+                login: loginInput.value, 
+                pass: pass.value,
+                regDate: new Date().toLocaleDateString()
+            });
+            
+            localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            
+            // Устанавливаем текущую сессию
+            localStorage.setItem('userLogin', loginInput.value);
+
+            // Перенаправление
+            window.location.href = 'dashboard.html';
+        });
+    </script>
 </body>
 </html>

@@ -1,164 +1,96 @@
-/**
- * ==========================================================================
- * LARPVPN OPERATIONAL KERNEL v4.0.0 [STABLE]
- * CORE LOGIC ENGINE / SESSION MANAGEMENT / DYNAMIC UI
- * ==========================================================================
- */
+/* 
+   SYSTEM CORE LOGIC | LARPVPN 
+   OPERATOR: KLYARSKIY
+*/
 
-"use strict";
-
-// Конфигурация системных констант
-const SYSTEM_CONFIG = {
-    PROJECT_NAME: "LarpVPN",
-    VERSION: "4.0.0",
-    STORAGE_KEY: "user",
-    TICKET_KEY: "tickets",
-    AUTH_PAGES: ["dashboard.html", "support.html"],
-    REDIRECT_HOME: "index.html",
-    REDIRECT_LOGIN: "login.html"
-};
-
-/**
- * Инициализация системы при загрузке DOM
- */
 document.addEventListener('DOMContentLoaded', () => {
-    LarpKernel.bootSequence();
+    
+    // --- 1. СИСТЕМА ПОДКЛЮЧЕНИЯ (DASHBOARD) ---
+    const connectBtn = document.querySelector('.btn-main');
+    const statusText = document.querySelector('.terminal-card h3');
+    const logoIcon = document.querySelector('.logo-icon');
+
+    if (connectBtn && statusText) {
+        connectBtn.addEventListener('click', () => {
+            if (connectBtn.innerText === 'INITIALIZE SECURE TUNNEL') {
+                // Имитация процесса подключения
+                connectBtn.innerText = 'ESTABLISHING...';
+                connectBtn.style.opacity = '0.5';
+                statusText.innerText = 'CONNECTING...';
+                statusText.style.color = 'var(--warning)';
+
+                setTimeout(() => {
+                    connectBtn.innerText = 'TERMINATE CONNECTION';
+                    connectBtn.style.opacity = '1';
+                    connectBtn.style.borderColor = 'var(--error)';
+                    connectBtn.style.color = 'var(--error)';
+                    
+                    statusText.innerText = 'CONNECTED';
+                    statusText.style.color = 'var(--accent)';
+                    
+                    if(logoIcon) {
+                        logoIcon.style.filter = 'grayscale(0)';
+                        logoIcon.style.boxShadow = '0 0 20px var(--accent)';
+                        logoIcon.style.opacity = '1';
+                    }
+                }, 2000);
+            } else {
+                // Отключение
+                connectBtn.innerText = 'INITIALIZE SECURE TUNNEL';
+                connectBtn.style.borderColor = 'var(--accent)';
+                connectBtn.style.color = 'var(--accent)';
+                statusText.innerText = 'DISCONNECTED';
+                statusText.style.color = 'var(--error)';
+                if(logoIcon) {
+                    logoIcon.style.filter = 'grayscale(1)';
+                    logoIcon.style.opacity = '0.5';
+                }
+            }
+        });
+    }
+
+    // --- 2. ВЫБОР СЕРВЕРА ---
+    const serverBtns = document.querySelectorAll('.terminal-card .btn-main');
+    serverBtns.forEach(btn => {
+        if (btn.innerText.includes('GERMANY') || btn.innerText.includes('USA')) {
+            btn.addEventListener('click', () => {
+                serverBtns.forEach(b => b.style.background = 'transparent');
+                btn.style.background = 'rgba(0, 255, 163, 0.1)';
+                console.log(`Node Selected: ${btn.innerText.split('-')[0].trim()}`);
+            });
+        }
+    });
+
+    // --- 3. ЭФФЕКТ ПЕЧАТИ (ДЛЯ ЗАГОЛОВКОВ) ---
+    const glitchedText = document.querySelector('.logo-text span');
+    if (glitchedText) {
+        setInterval(() => {
+            const originalText = glitchedText.innerText;
+            const chars = '!@#$%^&*()_+';
+            const randomChar = chars[Math.floor(Math.random() * chars.length)];
+            glitchedText.innerText = randomChar;
+            setTimeout(() => glitchedText.innerText = originalText, 100);
+        }, 4000);
+    }
+
+    // --- 4. УВЕДОМЛЕНИЯ (TOASTS) ---
+    window.showSystemAlert = (msg, type = 'info') => {
+        const toast = document.createElement('div');
+        toast.className = 'terminal-card';
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.zIndex = '9999';
+        toast.style.padding = '15px 25px';
+        toast.style.borderColor = type === 'error' ? 'var(--error)' : 'var(--accent)';
+        toast.innerHTML = `<span style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">[SYSTEM_MSG]: ${msg}</span>`;
+        
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    };
 });
 
-const LarpKernel = {
-    /**
-     * Последовательность загрузки ядра
-     */
-    bootSequence: function() {
-        console.log(`%c [${SYSTEM_CONFIG.PROJECT_NAME}] : INITIALIZING KERNEL v${SYSTEM_CONFIG.VERSION}... `, "color: #00ffa3; font-weight: bold; background: #05070a; padding: 5px;");
-        
-        this.syncSession();
-        this.renderNavigation();
-        this.applySecurityProtocols();
-        this.initGlobalEffects();
-        
-        console.log(`%c [${SYSTEM_CONFIG.PROJECT_NAME}] : SYSTEM_READY_STATE: OK `, "color: #00ffa3; font-weight: bold;");
-    },
-
-    /**
-     * Синхронизация текущей сессии оператора
-     */
-    syncSession: function() {
-        const userData = localStorage.getItem(SYSTEM_CONFIG.STORAGE_KEY);
-        this.currentUser = userData ? JSON.parse(userData) : null;
-        
-        if (this.currentUser) {
-            console.log(`%c [AUTH] : SESSION_ACTIVE: ${this.currentUser.login.toUpperCase()} `, "color: #00d1ff;");
-        } else {
-            console.log("%c [AUTH] : SESSION_INACTIVE: STANDBY_MODE ", "color: #8b949e;");
-        }
-    },
-
-    /**
-     * Динамическая отрисовка навигационного меню
-     * Подставляет нужные ссылки в зависимости от статуса авторизации
-     */
-    renderNavigation: function() {
-        const navMenu = document.getElementById('nav-menu');
-        if (!navMenu) return; // Если на странице нет меню (например, login.html), пропускаем
-
-        if (this.currentUser) {
-            // Интерфейс для авторизованного оператора
-            navMenu.innerHTML = `
-                <a href="support.html" class="nav-link btn-premium">ЦЕНТР ПОДДЕРЖКИ</a>
-                <a href="dashboard.html" class="nav-link">ТЕРМИНАЛ</a>
-                <a href="#" id="terminate-link" class="nav-link" style="color: var(--error-red);">ВЫЙТИ</a>
-            `;
-            
-            // Привязываем событие выхода
-            document.getElementById('terminate-link').addEventListener('click', (e) => {
-                e.preventDefault();
-                this.processLogout();
-            });
-        } else {
-            // Интерфейс для гостя
-            navMenu.innerHTML = `
-                <a href="login.html" class="nav-link">ВХОД</a>
-                <a href="register.html" class="nav-link btn-premium">РЕГИСТРАЦИЯ</a>
-            `;
-        }
-    },
-
-    /**
-     * Протоколы безопасности: редирект неавторизованных пользователей
-     */
-    applySecurityProtocols: function() {
-        const currentPage = window.location.pathname.split("/").pop();
-        
-        // Если страница требует авторизации, а пользователя нет - выкидываем на логин
-        if (SYSTEM_CONFIG.AUTH_PAGES.includes(currentPage) && !this.currentUser) {
-            console.warn("[SECURITY] : UNAUTHORIZED ACCESS DETECTED. REDIRECTING...");
-            window.location.href = SYSTEM_CONFIG.REDIRECT_LOGIN;
-        }
-    },
-
-    /**
-     * Процесс терминации сессии (Выход)
-     */
-    processLogout: function() {
-        if (confirm("[WARNING] : ИНИЦИИРОВАТЬ РАЗРЫВ СОЕДИНЕНИЯ С ТЕРМИНАЛОМ?")) {
-            console.warn("[AUTH] : DESTRUCTING SESSION...");
-            localStorage.removeItem(SYSTEM_CONFIG.STORAGE_KEY);
-            window.location.href = SYSTEM_CONFIG.REDIRECT_HOME;
-        }
-    },
-
-    /**
-     * Глобальные UI-эффекты (Прелоадер и плавные переходы)
-     */
-    initGlobalEffects: function() {
-        const preloader = document.getElementById('preloader') || document.getElementById('loader');
-        
-        if (preloader) {
-            // Искусственная задержка для "солидности"
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 800);
-            }, 1200);
-        }
-    }
-};
-
-/**
- * Вспомогательная функция для смены пароля (вызывается из дашборда)
- */
-function processPassChange() {
-    const newPassInput = document.getElementById('new-password');
-    if (!newPassInput) return;
-
-    const newPass = newPassInput.value;
-    
-    if (newPass.length < 5) {
-        alert("[CRITICAL_ERROR] : КЛЮЧ ДОСТУПА СЛИШКОМ КОРОТКИЙ. МИНИМУМ 5 СИМВОЛОВ.");
-        return;
-    }
-
-    let user = JSON.parse(localStorage.getItem(SYSTEM_CONFIG.STORAGE_KEY));
-    if (user) {
-        user.password = newPass;
-        localStorage.setItem(SYSTEM_CONFIG.STORAGE_KEY, JSON.stringify(user));
-        
-        newPassInput.value = '';
-        alert("[SYSTEM_NOTICE] : БАЗА ДАННЫХ ОБНОВЛЕНА. НОВЫЙ КЛЮЧ АКТИВИРОВАН.");
-        console.log("%c [DATABASE] : PASSWORD_UPDATE: SUCCESS ", "color: #70e000;");
-    }
+// ПРОВЕРКА СОСТОЯНИЯ СЕТИ (ДЛЯ ГЛАВНОЙ)
+if (window.location.pathname.includes('index.html')) {
+    console.warn("SYSTEM_ALERT: Server nodes are currently under maintenance.");
 }
-
-/**
- * Terminal UI Helpers: Кастомные уведомления (имитация)
- */
-const TerminalAlert = {
-    show: function(msg) {
-        // Здесь можно дописать создание красивого модального окна в стиле киберпанк
-        alert(msg);
-    }
-};
-
-// Конец файла script.js

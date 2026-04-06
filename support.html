@@ -1,222 +1,149 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- 
-        ==========================================================================
-        LARPVPN SUPPORT TERMINAL v4.0.0 [ENCRYPTED]
-        SUBSYSTEM: SUPPORT.HTML
-        ==========================================================================
-    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Center // LarpVPN Terminal</title>
+    <title>LarpVPN | Support Center v4.0</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="dashboard-body">
+<body>
+    <div class="scanline"></div>
 
-    <!-- INITIALIZATION SCREEN -->
-    <div id="loader" class="preloader-system">
-        <div class="scan-beam"></div>
-        <div class="load-text">CONNECTING TO SUPPORT_NODE...</div>
-    </div>
-
-    <div class="grid-overlay"></div>
-
-    <!-- HEADER WITH ANIMATED LOGO -->
-    <header class="dash-header">
-        <div class="logo-box" onclick="location.href='index.html'">
-            <div class="logo-viewport">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://w3.org">
-                    <path class="lightning-l" d="M30 20V80H75" stroke-linecap="square" />
-                    <g class="bolt-strike">
-                        <path d="M75 10L35 75" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" />
-                        <path d="M75 10L60 7M75 10L78 25" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" />
-                    </g>
-                    <g class="sparks-emitter">
-                        <circle cx="45" cy="55" r="3" fill="#ffcc00" /><circle cx="45" cy="55" r="2" fill="#00ffa3" />
-                        <circle cx="45" cy="55" r="2.5" fill="#fff" /><circle cx="45" cy="55" r="2.8" fill="#ffcc00" />
-                    </g>
-                </svg>
-            </div>
-            <div class="logo-label">LARP<span>VPN</span></div>
+    <header>
+        <div class="logo-wrap">
+            <div class="logo-icon"></div>
+            <div class="logo-text">LARP<span>_SUPPORT</span></div>
         </div>
-        <nav class="nav-container">
-            <a href="dashboard.html" class="nav-link">ВЕРНУТЬСЯ В ТЕРМИНАЛ</a>
+        <nav id="main-nav">
+            <a href="index.html" class="nav-item">ГЛАВНАЯ</a>
+            <a href="dashboard.html" class="nav-item">ДАШБОРД</a>
+            <span id="root-status" style="display: none; color: var(--error); font-family: 'Orbitron'; font-size: 0.65rem; border: 1px solid var(--error); padding: 2px 10px; margin-left: 20px; box-shadow: 0 0 10px var(--error-glow);">ROOT_ACCESS_GRANTED</span>
         </nav>
     </header>
 
-    <main class="container-full" style="max-width: 1000px; padding: 60px 20px;">
+    <main style="padding: 50px 8%; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.8s var(--ease-cyber);">
         
-        <!-- SYSTEM INTRO -->
-        <section style="text-align: center; margin-bottom: 50px;">
-            <h1 style="font-family: 'Orbitron'; font-size: 2.5rem; margin: 0; letter-spacing: 5px;">ЦЕНТР ПОДДЕРЖКИ</h1>
-            <p style="color: var(--text-mid); margin-top: 15px;">Прямой канал связи с операторами LarpVPN. Среднее время ответа: 15 минут.</p>
+        <!-- 1. ИНТЕРФЕЙС ЮЗЕРА (ОТПРАВКА ТИКЕТА) -->
+        <section id="user-view" class="terminal-card" style="max-width: 800px; margin: 0 auto;">
+            <div class="status-bar"><span>NEW_SECURE_TICKET</span></div>
+            <h2 style="font-family: 'Orbitron'; margin-bottom: 25px; letter-spacing: 3px;">СВЯЗЬ С ОПЕРАТОРОМ</h2>
+            
+            <form id="ticket-form" style="display: flex; flex-direction: column; gap: 25px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--accent);">SENDER_ID</label>
+                        <input type="text" id="user-id-readonly" readonly style="opacity: 0.6; cursor: not-allowed;">
+                    </div>
+                    <div>
+                        <label style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--accent);">PRIORITY_LEVEL</label>
+                        <select style="background: rgba(0,0,0,0.5); border: 1px solid var(--accent-border); color: #fff; padding: 12px; font-family:'JetBrains Mono'; outline:none; border-left: 3px solid var(--info);">
+                            <option>LOW_PRIORITY</option>
+                            <option>CRITICAL_ISSUE</option>
+                            <option>BILLING_ERROR</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--accent);">MESSAGE_DATA_ENCRYPTED</label>
+                    <textarea id="ticket-msg" required placeholder="Введите ваше сообщение... Админ ответит в ближайшее время." style="height: 200px; resize: none;"></textarea>
+                </div>
+
+                <button type="submit" class="btn-main" style="width: 100%; padding: 20px;">TRANSMIT_DATA_TO_ROOT</button>
+            </form>
         </section>
 
-        <div style="display: grid; grid-template-columns: 1fr; gap: 40px;">
+        <!-- 2. ИНТЕРФЕЙС АДМИНА (ОЧЕРЕДЬ ЗАПРОСОВ) -->
+        <section id="admin-view" style="display: none;">
+            <div class="terminal-card" style="border-color: var(--warning); margin-bottom: 30px;">
+                <div class="status-bar"><div class="indicator" style="background:var(--warning)"></div><span style="color:var(--warning)">ACTIVE_TICKETS_BUFFER</span></div>
+                <h2 style="font-family: 'Orbitron'; color: var(--warning); letter-spacing: 5px;">ADMIN_TERMINAL_ROOT</h2>
+            </div>
             
-            <!-- TICKET SUBMISSION (USER ONLY) -->
-            <section id="user-interface" class="card-terminal">
-                <div class="system-badge" style="margin-bottom: 20px;">[ NEW_TICKET_REQUEST ]</div>
-                <h3 style="font-family: 'Orbitron'; color: var(--accent-mint); margin-bottom: 20px;">СОЗДАТЬ ОБРАЩЕНИЕ</h3>
-                
-                <div style="margin-bottom: 20px;">
-                    <label style="font-size: 0.7rem; color: var(--text-low); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px;">Тип проблемы</label>
-                    <select id="ticket-type" class="cyber-input" style="width: 100%; cursor: pointer;">
-                        <option value="connection">Проблема с подключением</option>
-                        <option value="billing">Оплата и тарифы</option>
-                        <option value="account">Настройки аккаунта</option>
-                        <option value="other">Другое</option>
-                    </select>
-                </div>
+            <div id="tickets-buffer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 25px;">
+                <!-- Сюда скрипт вставляет тикеты -->
+            </div>
+        </section>
 
-                <div style="margin-bottom: 20px;">
-                    <label style="font-size: 0.7rem; color: var(--text-low); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px;">Ваше сообщение</label>
-                    <textarea id="ticket-msg" class="cyber-input" style="width: 100%; height: 150px; resize: none;" placeholder="Опишите ситуацию максимально подробно..."></textarea>
-                </div>
-
-                <button onclick="sendTicket()" class="btn-premium" style="width: 100%; padding: 15px;">ОТПРАВИТЬ СИГНАЛ</button>
-            </section>
-
-            <!-- TICKET ARCHIVE -->
-            <section class="card-terminal">
-                <div class="system-badge" style="margin-bottom: 20px;">[ ENCRYPTED_ARCHIVE ]</div>
-                <h2 id="archive-title" style="font-family: 'Orbitron'; font-size: 1.2rem; letter-spacing: 3px; margin-bottom: 30px;">ИСТОРИЯ ВАШИХ ЗАПРОСОВ</h2>
-                
-                <div id="tickets-display" style="display: flex; flex-direction: column; gap: 25px;">
-                    <!-- Сообщения будут рендериться здесь -->
-                </div>
-
-                <!-- Empty State (Hidden by default) -->
-                <div id="empty-msg" style="display: none; text-align: center; padding: 40px; color: var(--text-low); font-family: 'JetBrains Mono';">
-                    > NO_TICKETS_FOUND_IN_DATABASE...
-                </div>
-            </section>
-        </div>
     </main>
 
-    <!-- SYSTEM SCRIPTS -->
-    <script src="script.js"></script>
     <script>
-        // Глобальные константы
-        const user = JSON.parse(localStorage.getItem('user'));
-        const isAdmin = user && user.login === 'klyarskiy@gmail.com';
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('userLogin') || 'ANONYMOUS_USER';
+            const isAdmin = (currentUser.toLowerCase() === 'admin' || currentUser.toLowerCase() === 'klyarskiy@gmail.com');
 
-        // Инициализация при загрузке
-        window.addEventListener('load', () => {
-            if (!user) window.location.href = 'login.html';
+            const userView = document.getElementById('user-view');
+            const adminView = document.getElementById('admin-view');
+            const rootStatus = document.getElementById('root-status');
+            const userReadonly = document.getElementById('user-id-readonly');
 
-            // Скрываем лоадер
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 800);
-            }, 1000);
+            userReadonly.value = currentUser.toUpperCase();
 
-            // Если зашел админ — скрываем форму и меняем заголовок
+            // ПЕРЕКЛЮЧЕНИЕ РОЛЕЙ
             if (isAdmin) {
-                document.getElementById('user-interface').style.display = 'none';
-                document.getElementById('archive-title').innerText = "ПАНЕЛЬ УПРАВЛЕНИЯ ОПЕРАТОРА (ADMIN)";
+                userView.style.display = 'none';
+                adminView.style.display = 'block';
+                rootStatus.style.display = 'inline-block';
+                renderTickets();
             }
 
-            renderTickets();
-        });
+            // ОТПРАВКА ЮЗЕРОМ
+            document.getElementById('ticket-form')?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const msg = document.getElementById('ticket-msg').value;
+                
+                let tickets = JSON.parse(localStorage.getItem('sysTickets')) || [];
+                tickets.push({
+                    id: Date.now(),
+                    user: currentUser,
+                    content: msg,
+                    time: new Date().toLocaleTimeString()
+                });
+                
+                localStorage.setItem('sysTickets', JSON.stringify(tickets));
+                alert('[ SYSTEM ]: ТИКЕТ УСПЕШНО ОТПРАВЛЕН В ОЧЕРЕДЬ');
+                e.target.reset();
+            });
 
-        // Функция отправки тикета
-        function sendTicket() {
-            const msg = document.getElementById('ticket-msg').value;
-            const type = document.getElementById('ticket-type').value;
+            // ОТРИСОВКА ДЛЯ АДМИНА
+            function renderTickets() {
+                const buffer = document.getElementById('tickets-buffer');
+                let tickets = JSON.parse(localStorage.getItem('sysTickets')) || [];
 
-            if (!msg.trim()) return alert("Системная ошибка: Сообщение не может быть пустым.");
+                if (tickets.length === 0) {
+                    buffer.innerHTML = `<div class="terminal-card" style="grid-column: 1/-1; text-align: center; color: var(--t-low);">[ ОЧЕРЕДЬ ТИКАЕТ ПУСТОТОЙ... ЗАПРОСОВ НЕТ ]</div>`;
+                    return;
+                }
 
-            let tickets = JSON.parse(localStorage.getItem('tickets')) || [];
-            
-            const newTicket = {
-                id: Date.now(),
-                user: user.login,
-                type: type.toUpperCase(),
-                text: msg,
-                answer: null,
-                date: new Date().toLocaleString(),
-                status: 'OPEN'
+                buffer.innerHTML = tickets.map(t => `
+                    <div class="terminal-card" style="border-left: 4px solid var(--info); animation: fadeIn 0.4s var(--ease-cyber);">
+                        <div class="status-bar"><span>FROM: ${t.user.toUpperCase()}</span><span style="margin-left: auto;">${t.time}</span></div>
+                        <p style="font-family:'JetBrains Mono'; font-size:0.85rem; margin-bottom: 20px; line-height: 1.6;">${t.content}</p>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" placeholder="Введите ответ..." id="reply-${t.id}" style="font-size: 0.7rem; padding: 8px;">
+                            <button onclick="resolveTicket(${t.id})" class="btn-main" style="padding: 10px 20px; font-size: 0.6rem; border-color: var(--info); color: var(--info);">REPLY_&_CLOSE</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // ОТВЕТ АДМИНА
+            window.resolveTicket = (id) => {
+                const reply = document.getElementById(`reply-${id}`).value;
+                if (!reply) return alert('Введите текст ответа!');
+
+                let tickets = JSON.parse(localStorage.getItem('sysTickets'));
+                tickets = tickets.filter(t => t.id !== id);
+                localStorage.setItem('sysTickets', JSON.stringify(tickets));
+                
+                alert(`[ SYSTEM ]: ОТВЕТ ОТПРАВЛЕН ПОЛЬЗОВАТЕЛЮ ${id}`);
+                renderTickets();
             };
-
-            tickets.push(newTicket);
-            localStorage.setItem('tickets', JSON.stringify(tickets));
-            
-            document.getElementById('ticket-msg').value = '';
-            renderTickets();
-            alert("Сигнал отправлен. Ожидайте ответа оператора.");
-        }
-
-        // Рендеринг списка тикетов
-        function renderTickets() {
-            const container = document.getElementById('tickets-display');
-            const emptyMsg = document.getElementById('empty-msg');
-            const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
-            
-            // Фильтрация: админ видит всё, юзер — только своё
-            const filtered = isAdmin ? tickets : tickets.filter(t => t.user === user.login);
-
-            if (filtered.length === 0) {
-                emptyMsg.style.display = 'block';
-                container.innerHTML = '';
-                return;
-            }
-
-            emptyMsg.style.display = 'none';
-            container.innerHTML = filtered.reverse().map(t => `
-                <div style="background: rgba(0,0,0,0.3); border: 1px solid ${t.answer ? 'var(--border-bright)' : 'rgba(255,71,71,0.2)'}; border-left: 5px solid ${t.answer ? 'var(--accent-mint)' : 'var(--error)'}; border-radius: 12px; padding: 25px; transition: 0.3s;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-family: 'JetBrains Mono'; font-size: 0.7rem;">
-                        <span style="color: var(--accent-mint);">ID: #${t.id} / TYPE: ${t.type}</span>
-                        <span style="color: var(--text-low);">${t.date}</span>
-                    </div>
-                    
-                    <div style="color: var(--text-high); font-size: 1rem; line-height: 1.6; margin-bottom: 20px;">
-                        <strong style="color: var(--text-mid); font-size: 0.7rem; display: block; margin-bottom: 5px;">MESSAGE:</strong>
-                        ${t.text}
-                    </div>
-
-                    ${t.answer ? `
-                        <div style="background: rgba(0, 255, 163, 0.05); padding: 20px; border-radius: 8px; border-top: 1px solid var(--accent-mint-glow);">
-                            <span style="color: var(--accent-mint); font-family: 'Orbitron'; font-size: 0.65rem; letter-spacing: 2px; display: block; margin-bottom: 10px;">OFFICIAL_REPLY_FROM_ADMIN:</span>
-                            <p style="margin: 0; color: var(--text-high); font-size: 0.95rem;">${t.answer}</p>
-                        </div>
-                    ` : (isAdmin ? `
-                        <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 20px;">
-                            <textarea id="reply-${t.id}" class="cyber-input" style="width: 100%; height: 80px; margin-bottom: 10px;" placeholder="Ваш ответ пользователю..."></textarea>
-                            <div style="display: flex; gap: 10px;">
-                                <button onclick="replyTicket(${t.id})" class="btn-premium" style="padding: 8px 20px; font-size: 0.7rem;">ОТПРАВИТЬ ОТВЕТ</button>
-                                <button onclick="deleteTicket(${t.id})" style="background: rgba(255,71,71,0.1); border: 1px solid var(--error); color: var(--error); cursor: pointer; padding: 8px 15px; border-radius: 4px; font-family: 'Orbitron'; font-size: 0.7rem;">УДАЛИТЬ</button>
-                            </div>
-                        </div>
-                    ` : `
-                        <div style="color: var(--error); font-family: 'JetBrains Mono'; font-size: 0.7rem; letter-spacing: 2px; text-align: right;">[ STATUS: PENDING_OPERATOR ]</div>
-                    `)}
-                </div>
-            `).join('');
-        }
-
-        // Ответ админа
-        function replyTicket(id) {
-            const answer = document.getElementById(`reply-${id}`).value;
-            if (!answer.trim()) return;
-
-            let tickets = JSON.parse(localStorage.getItem('tickets'));
-            const index = tickets.findIndex(t => t.id === id);
-            
-            tickets[index].answer = answer;
-            localStorage.setItem('tickets', JSON.stringify(tickets));
-            renderTickets();
-        }
-
-        // Удаление (только админ)
-        function deleteTicket(id) {
-            if (!confirm("Удалить тикет из базы данных?")) return;
-            let tickets = JSON.parse(localStorage.getItem('tickets'));
-            tickets = tickets.filter(t => t.id !== id);
-            localStorage.setItem('tickets', JSON.stringify(tickets));
-            renderTickets();
-        }
+        });
     </script>
+
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </body>
 </html>
