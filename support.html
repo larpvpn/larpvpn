@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Центр поддержки | LarpVPN</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <div class="grid-overlay"></div>
+    <header class="dash-header">
+        <div class="logo">LARP<span>VPN</span> <small>/ SUPPORT</small></div>
+        <nav><a href="dashboard.html" class="nav-link">ВЕРНУТЬСЯ В ТЕРМИНАЛ</a></nav>
+    </header>
+
+    <!-- Центрированный контейнер -->
+    <main class="support-central-container">
+        
+        <!-- Блок создания (только для юзеров) -->
+        <section id="user-input-section" class="support-card-main">
+            <h2 class="premium-font" style="font-size: 1.2rem; text-align: center;">ОТПРАВИТЬ ЗАПРОС В ЦЕНТР</h2>
+            <textarea id="ticket-text" placeholder="Опишите вашу проблему или задайте вопрос специалисту..."></textarea>
+            <button onclick="sendTicket()" class="btn-cyber-full">ОТПРАВИТЬ В ЭФИР</button>
+        </section>
+
+        <!-- История сообщений -->
+        <section class="support-history">
+            <h2 id="support-title" class="section-title" style="margin-top: 40px;">АРХИВ СООБЩЕНИЙ</h2>
+            <div id="tickets-display" class="ticket-list-centered">
+                <!-- Сообщения появятся здесь -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) window.location.href = 'login.html';
+        const isAdmin = user.login === 'klyarskiy@gmail.com';
+
+        window.onload = function() {
+            if (isAdmin) {
+                document.getElementById('user-input-section').style.display = 'none';
+                document.getElementById('support-title').innerText = "ПАНЕЛЬ МОДЕРАЦИИ";
+            }
+            renderTickets();
+        };
+
+        function sendTicket() {
+            const text = document.getElementById('ticket-text').value;
+            if (!text.trim()) return;
+
+            let tickets = JSON.parse(localStorage.getItem('tickets')) || [];
+            tickets.push({
+                id: Date.now(),
+                user: user.login,
+                message: text,
+                answer: null,
+                date: new Date().toLocaleString()
+            });
+
+            localStorage.setItem('tickets', JSON.stringify(tickets));
+            document.getElementById('ticket-text').value = '';
+            renderTickets();
+        }
+
+        function renderTickets() {
+            const container = document.getElementById('tickets-display');
+            const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
+            const filtered = isAdmin ? tickets : tickets.filter(t => t.user === user.login);
+
+            container.innerHTML = filtered.map(t => `
+                <div class="glass-ticket ${t.answer ? 'resolved' : 'pending'}">
+                    <div class="ticket-meta">
+                        <span class="user-tag">${t.user}</span>
+                        <span class="date-tag">${t.date}</span>
+                    </div>
+                    <div class="ticket-body">${t.message}</div>
+                    ${t.answer ? 
+                        `<div class="admin-reply">
+                            <label>ОТВЕТ ТЕХПОДДЕРЖКИ:</label>
+                            <p>${t.answer}</p>
+                        </div>` : 
+                        (isAdmin ? 
+                            `<div class="admin-actions">
+                                <input type="text" id="ans-${t.id}" placeholder="Текст ответа...">
+                                <button onclick="replyTicket(${t.id})">ОТВЕТИТЬ</button>
+                            </div>` : 
+                            `<div class="wait-status">ОЖИДАНИЕ ОПЕРАТОРА...</div>`)
+                    }
+                </div>
+            `).reverse().join('');
+        }
+
+        function replyTicket(id) {
+            const ans = document.getElementById(`ans-${id}`).value;
+            if (!ans) return;
+            let tickets = JSON.parse(localStorage.getItem('tickets'));
+            const idx = tickets.findIndex(t => t.id === id);
+            tickets[idx].answer = ans;
+            localStorage.setItem('tickets', JSON.stringify(tickets));
+            renderTickets();
+        }
+    </script>
+</body>
+</html>

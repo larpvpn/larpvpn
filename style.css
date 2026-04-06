@@ -1,0 +1,568 @@
+:root {
+    --bg: #05070a;           /* Глубокий иссиня-черный */
+    --panel: #0d1117;       /* Цвет карточек */
+    --accent: #00ffa3;      /* Мягкий мятный неон */
+    --accent-dim: #004d31;  /* Приглушенный мятный */
+    --text-main: #e6edf3;   /* Почти белый */
+    --text-dim: #8b949e;    /* Серый текст */
+    --glass: rgba(13, 17, 23, 0.8);
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--text-main);
+    font-family: 'Exo 2', sans-serif;
+    line-height: 1.6;
+    background-image: radial-gradient(circle at 50% -20%, #004d31 0%, transparent 40%); /* Мягкий градиент сверху */
+}
+
+/* Навигация */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 8%;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.logo { 
+    font-family: 'Orbitron', sans-serif; 
+    font-size: 1.5rem; 
+    letter-spacing: 4px; 
+    color: var(--text-main);
+}
+.logo span { color: var(--accent); }
+
+nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+nav a:hover { color: var(--accent); }
+
+/* Герой-секция */
+.hero {
+    padding: 120px 8% 60px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    background: linear-gradient(to bottom, #fff, #8b949e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    color: var(--text-dim);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-size: 1.1rem;
+}
+
+/* Таблица тарифов (Премиум вид) */
+.pricing-section { padding: 60px 8%; }
+
+.pricing-table-wrapper {
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.cyber-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cyber-table th {
+    background: rgba(255,255,255,0.02);
+    padding: 20px;
+    text-align: left;
+    color: var(--accent);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+
+.cyber-table td {
+    padding: 25px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+
+.row-highlight { background: rgba(0, 255, 163, 0.02); }
+
+/* FAQ */
+.faq-section { padding: 80px 8%; }
+
+.faq-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.faq-item {
+    background: var(--panel);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+}
+
+.faq-item:hover { border-color: var(--accent-dim); }
+
+.faq-item h3 {
+    margin-top: 0;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+.faq-item p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 0; }
+
+/* Предупреждение (Аккуратное) */
+.warning-bar {
+    background: rgba(255, 71, 71, 0.1);
+    color: #ff4747;
+    text-align: center;
+    padding: 15px;
+    border-top: 1px solid rgba(255, 71, 71, 0.2);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Формы (Вход/Рег) */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.auth-form {
+    background: var(--panel);
+    padding: 40px;
+    border-radius: 16px;
+    width: 350px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.auth-form input {
+    width: 100%;
+    background: #05070a;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px;
+    margin: 10px 0;
+    color: white;
+    border-radius: 6px;
+    outline: none;
+}
+
+.auth-form input:focus { border-color: var(--accent); }
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover { box-shadow: 0 0 20px rgba(0, 255, 163, 0.4); }
+
+.section-title {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 50px;
+    letter-spacing: 5px;
+    font-size: 1.5rem;
+}
+/* Специфичные стили для Дашборда */
+.dash-header {
+    background: rgba(13, 17, 23, 0.9);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 255, 163, 0.1);
+}
+
+.dash-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    padding: 40px 5%;
+}
+
+.user-profile-card {
+    background: var(--panel);
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.avatar-shield {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px var(--accent-dim));
+}
+
+.badge {
+    font-size: 0.6rem;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    color: var(--text-dim);
+}
+
+.neon-border { border: 1px solid var(--accent); color: var(--accent); }
+
+.stat-item {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-item label { font-size: 0.7rem; color: var(--text-dim); }
+.stat-item span { font-family: 'Orbitron'; font-size: 0.9rem; color: var(--text-main); }
+
+.status-banner {
+    background: rgba(255, 71, 71, 0.05);
+    border: 1px solid rgba(255, 71, 71, 0.2);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.pulse-red {
+    width: 12px;
+    height: 12px;
+    background: #ff4747;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff4747;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    70% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.data-card {
+    background: var(--panel);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.data-card label { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 1px; }
+.data-card .value { font-family: 'Orbitron'; font-size: 1.5rem; margin-top: 10px; }
+
+.upgrade-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background: transparent;
+    border: 1px solid #ff4747;
+    color: #ff4747;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Orbitron';
+    font-size: 0.7rem;
+    transition: 0.3s;
+}
+
+.logout-btn:hover { background: #ff4747; color: white; }
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-right: 20px;
+}
+/* АНИМАЦИЯ ЗАГРУЗКИ */
+.loader-wrapper {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #05070a;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.scanner {
+    width: 200px;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+    position: relative;
+    animation: scan 1.5s infinite ease-in-out;
+}
+
+@keyframes scan {
+    0%, 100% { transform: translateY(-20px); opacity: 0.2; }
+    50% { transform: translateY(20px); opacity: 1; }
+}
+
+.loader-text {
+    margin-top: 20px;
+    font-family: 'Orbitron';
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+}
+
+/* УБИРАЕМ ЛИНИИ В ДАШБОРДЕ */
+.dash-header, .user-profile-card, .data-card, .status-banner {
+    border: none !important; /* Убираем все рамки */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Добавляем объем за счет тени */
+}
+
+/* ФИКС ДЛИННОГО EMAIL */
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Добавляет троеточие в конце */
+    max-width: 100%;
+    display: block;
+    font-size: 0.9rem !important;
+}
+
+/* Изменяем отображение почты, чтобы она не кричала капсом */
+#welcome-msg {
+    text-transform: none;
+    padding: 0 10px;
+}
+:root {
+    --bg: #05070a;
+    --panel: #0d1117;
+    --accent: #00ffa3;
+    --text-main: #e6edf3;
+    --text-dim: #8b949e;
+}
+
+body {
+    margin: 0; background-color: var(--bg); color: var(--text-main);
+    font-family: 'Exo 2', sans-serif; line-height: 1.6;
+}
+
+/* Убираем линии везде */
+header, .dash-header, .warning-bar, .pricing-table-wrapper { border: none !important; }
+
+header { display: flex; justify-content: space-between; padding: 25px 8%; backdrop-filter: blur(10px); }
+
+.logo { font-family: 'Orbitron'; font-size: 1.5rem; letter-spacing: 4px; }
+.logo span { color: var(--accent); }
+
+nav a { color: var(--text-dim); text-decoration: none; margin-left: 30px; font-size: 0.8rem; text-transform: uppercase; }
+
+/* Тот самый шрифт для ELITE ENCRYPTION */
+.premium-font {
+    font-family: 'Orbitron', sans-serif; font-weight: 700; letter-spacing: 5px;
+    background: linear-gradient(90deg, var(--accent), #fff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+.hero { padding: 100px 8% 40px; text-align: center; }
+.hero h1 { font-family: 'Orbitron'; font-size: 3rem; margin: 20px 0; }
+
+.pricing-section, .faq-section { padding: 40px 8%; }
+.cyber-table { width: 100%; border-collapse: collapse; background: var(--panel); border-radius: 12px; overflow: hidden; }
+.cyber-table th { padding: 20px; text-align: left; color: var(--accent); font-family: 'Orbitron'; font-size: 0.7rem; }
+.cyber-table td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+
+.faq-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.faq-item { background: var(--panel); padding: 25px; border-radius: 8px; }
+.faq-item h3 { color: var(--accent); margin-top: 0; font-size: 1rem; }
+
+.warning-bar { background: rgba(255, 71, 71, 0.1); color: #ff4747; text-align: center; padding: 15px; font-size: 0.8rem; letter-spacing: 2px; }
+
+/* Стили для лоадера и длинной почты */
+.loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05070a; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.5s; }
+.scanner { width: 200px; height: 2px; background: var(--accent); box-shadow: 0 0 15px var(--accent); animation: scan 1.5s infinite ease-in-out; }
+@keyframes scan { 0%, 100% { transform: translateY(-20px); } 50% { transform: translateY(20px); } }
+
+.truncate-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; display: block; }
+body {
+    margin: 0;
+    background-color: #05070a; /* Основной глубокий черный */
+    color: var(--text-main);
+    font-family: 'Exo 2', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh; /* Растягивает фон на всю высоту экрана */
+    display: flex;
+    flex-direction: column;
+    /* Мягкое свечение сверху без резких границ */
+    background-image: radial-gradient(circle at 50% -10%, rgba(0, 255, 163, 0.15) 0%, transparent 60%);
+    background-attachment: fixed; /* Фон не будет дергаться при скролле */
+}
+
+/* Исправляем контейнер дашборда, чтобы он не "резал" фон */
+.dash-container {
+    flex: 1; /* Занимает все свободное место */
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    padding: 40px 5%;
+    align-items: start;
+}
+/* Центральная поддержка */
+.support-central-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.support-card-main {
+    background: var(--panel);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    margin-bottom: 50px;
+}
+
+.support-card-main textarea {
+    width: 100%;
+    height: 120px;
+    background: #05070a;
+    border: 1px solid rgba(0, 255, 163, 0.2);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    resize: none;
+    font-family: 'Exo 2';
+}
+
+.btn-cyber-full {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    border: none;
+    color: #000;
+    font-family: 'Orbitron';
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.glass-ticket {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border-left: 3px solid #333;
+}
+
+.glass-ticket.pending { border-left-color: #ff4747; }
+.glass-ticket.resolved { border-left-color: var(--accent); }
+
+.ticket-meta { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 10px; }
+.user-tag { color: var(--accent); font-family: 'Orbitron'; }
+
+.admin-reply {
+    margin-top: 20px;
+    background: rgba(0, 255, 163, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.admin-reply label { font-size: 0.6rem; color: var(--accent); font-family: 'Orbitron'; }
+
+.admin-actions { display: flex; gap: 10px; margin-top: 20px; }
+.admin-actions input { flex: 1; background: #000; border: 1px solid var(--accent); color: #fff; padding: 8px; border-radius: 4px; }
+.admin-actions button { background: var(--accent); border: none; padding: 0 20px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+/* Кнопка поддержки в шапке */
+.cyber-btn-small {
+    text-decoration: none;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-family: 'Orbitron';
+    transition: 0.3s;
+    margin-right: 15px;
+}
+
+.cyber-btn-small:hover {
+    background: var(--accent);
+    color: #000;
+    box-shadow: 0 0 15px var(--accent);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Убираем лишние отступы */
+.dash-container {
+    padding-top: 20px;
+}
+/* Кнопка поддержки с эффектом зажигания */
+.support-btn-glow {
+    color: var(--accent) !important; /* Мятный цвет текста по умолчанию */
+    border: 1px solid var(--accent) !important;
+    padding: 8px 20px !important;
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    transition: all 0.4s ease; /* Плавность анимации */
+    background: transparent;
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.support-btn-glow:hover {
+    background: var(--accent); /* Заливка при наведении */
+    color: #000 !important; /* Текст становится черным для контраста */
+    box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent-dim); /* Мощное свечение */
+    transform: translateY(-2px); /* Легкий подъем кнопки */
+}
+
+/* Убираем стандартное подчеркивание ссылок в хедере */
+.nav-link {
+    text-decoration: none;
+    transition: 0.3s;
+}

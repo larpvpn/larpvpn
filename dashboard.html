@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления | LarpVPN</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <!-- ЭКРАН ЗАГРУЗКИ -->
+    <div id="loader" class="loader-wrapper">
+        <div class="scanner"></div>
+        <div class="loader-text">INITIALIZING SECURE LINE...</div>
+    </div>
+
+    <div class="grid-overlay"></div>
+
+    <header class="dash-header">
+        <div class="logo">LARP<span>VPN</span> <small>/ TERMINAL</small></div>
+        <div class="header-actions">
+            <!-- Кнопка Поддержка с эффектом свечения -->
+            <a href="support.html" class="support-btn-glow">ПОДДЕРЖКА</a>
+            <a href="index.html" class="nav-link">ГЛАВНОЕ МЕНЮ</a>
+            <button onclick="logout()" class="logout-btn">ОТКЛЮЧИТЬСЯ</button>
+        </div>
+    </header>
+
+    <main class="dash-container">
+        <!-- ЛЕВАЯ ПАНЕЛЬ -->
+        <aside class="dash-sidebar">
+            <div class="user-profile-card">
+                <div class="avatar-shield">🛡️</div>
+                <h2 id="welcome-msg" class="truncate-text">USER_UNDEFINED</h2>
+                <div class="badge-row">
+                    <span class="badge neon-border">FREE_TIER</span>
+                    <span class="badge">VERIFIED</span>
+                </div>
+            </div>
+
+            <div class="system-stats">
+                <div class="stat-item">
+                    <label>ID СЕССИИ</label>
+                    <span id="session-id">#0000-VPN</span>
+                </div>
+                <div class="stat-item">
+                    <label>ЛОКАЦИЯ</label>
+                    <span>MOSCOW, RU</span>
+                </div>
+                <div class="stat-item">
+                    <label>ШИФРОВАНИЕ</label>
+                    <span style="color: var(--accent);">AES-256-GCM</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ПРАВАЯ ПАНЕЛЬ -->
+        <section class="main-stats">
+            
+            <!-- БЛОК СМЕНЫ ПАРОЛЯ -->
+            <div class="settings-card" style="margin-bottom: 25px; background: var(--panel); padding: 25px; border-radius: 12px;">
+                <h3 class="premium-font" style="font-size: 0.8rem; margin-bottom: 15px; color: var(--accent);">БЕЗОПАСНОСТЬ / СМЕНА ПАРОЛЯ</h3>
+                <div style="display: flex; gap: 10px;">
+                    <input type="password" id="new-password" placeholder="Новый пароль" style="background: #000; border: 1px solid rgba(0, 255, 163, 0.2); color: #fff; padding: 12px; border-radius: 6px; flex: 1;">
+                    <button onclick="changePassword()" class="btn" style="width: auto; padding: 0 25px;">ОБНОВИТЬ</button>
+                </div>
+            </div>
+
+            <!-- СТАТУС -->
+            <div class="status-banner" style="margin-bottom: 25px;">
+                <div class="status-indicator">
+                    <div class="pulse-red"></div>
+                    <span class="status-text">OFFLINE</span>
+                </div>
+                <p>Критическая ошибка подключения. Проводятся работы на узлах связи.</p>
+            </div>
+
+            <!-- ДАННЫЕ -->
+            <div class="data-grid">
+                <div class="data-card">
+                    <label>ТРАФИК (IN)</label>
+                    <div class="value">0.00 MB</div>
+                </div>
+                <div class="data-card">
+                    <label>ТРАФИК (OUT)</label>
+                    <div class="value">0.00 MB</div>
+                </div>
+                <div class="data-card">
+                    <label>UPTIME</label>
+                    <div class="value">00:00:00</div>
+                </div>
+                <div class="data-card active-card" style="grid-column: span 3;">
+                    <label>ТЕКУЩИЙ ПЛАН</label>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="value">БАЗОВЫЙ (FREE)</div>
+                        <a href="index.html" class="upgrade-link">УЛУЧШИТЬ ТАРИФ →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('welcome-msg').innerText = user.login;
+            document.getElementById('session-id').innerText = '#' + Math.floor(Math.random()*10000) + '-VPN';
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.style.display = 'none', 500);
+                }
+            }, 1200);
+        });
+
+        function changePassword() {
+            const newPass = document.getElementById('new-password').value;
+            if (newPass.length < 4) return alert("Пароль слишком короткий (мин. 4 символа)!");
+            let u = JSON.parse(localStorage.getItem('user'));
+            u.password = newPass;
+            localStorage.setItem('user', JSON.stringify(u));
+            alert("Пароль успешно обновлен.");
+            document.getElementById('new-password').value = '';
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
