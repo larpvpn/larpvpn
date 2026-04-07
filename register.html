@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LarpVPN | Инициализация нового ID</title>
-    <!-- Подключаем твой основной стиль -->
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Анимация появления */
         body { animation: fadeIn 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Индикатор сложности */
         .strength-bar { display: flex; gap: 5px; margin-top: 10px; }
         .bar-node { height: 4px; flex: 1; background: var(--t-low); transition: 0.3s; }
     </style>
@@ -27,24 +23,19 @@
                 <div class="logo-text">NEW<span>_IDENTITY</span></div>
             </div>
 
-            <!-- БЛОК ОШИБОК (скрыт по умолчанию) -->
             <div id="reg-error" style="display: none; border: 1px solid var(--error); background: rgba(255, 71, 71, 0.05); color: var(--error); padding: 12px; font-family:'JetBrains Mono'; font-size: 0.7rem; margin-bottom: 20px; text-align: center;">
                 [!] SYSTEM_ERROR: DATA_REJECTED
             </div>
 
             <form id="reg-form">
-                <!-- ЛОГИН -->
                 <div style="margin-bottom: 20px;">
                     <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); letter-spacing: 2px;">01_IDENTIFIER (LOGIN)</label>
                     <input type="text" id="reg-login" required placeholder="NICKNAME" autocomplete="off" style="margin-top: 5px;">
                 </div>
 
-                <!-- ПАРОЛЬ -->
                 <div style="margin-bottom: 25px;">
                     <label style="font-family:'JetBrains Mono'; font-size: 0.6rem; color: var(--accent); letter-spacing: 2px;">02_ACCESS_KEY (PASSWORD)</label>
                     <input type="password" id="reg-pass" required placeholder="••••••••" style="margin-top: 5px;">
-                    
-                    <!-- Индикатор сложности -->
                     <div class="strength-bar">
                         <div class="bar-node"></div>
                         <div class="bar-node"></div>
@@ -76,10 +67,8 @@
             const login = loginInput.value.trim();
             const pass = passInput.value;
 
-            // 1. Загружаем базу пользователей
             let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
 
-            // 2. Проверка на уникальность логина
             const isDuplicate = allUsers.some(u => u.login.toLowerCase() === login.toLowerCase());
 
             if (isDuplicate) {
@@ -89,23 +78,16 @@
                 return;
             }
 
-            // 3. Сохранение (Логин + Пароль!)
-            // ВАЖНО: Мы сохраняем объект с полем "pass", чтобы логин мог его проверить
             allUsers.push({ 
                 login: login, 
                 pass: pass 
             });
 
             localStorage.setItem('allUsers', JSON.stringify(allUsers));
-            
-            // 4. Установка текущей сессии
             localStorage.setItem('userLogin', login);
-
-            // 5. Редирект в Дашборд
             window.location.href = 'dashboard.html';
         });
 
-        // Визуальный эффект сложности пароля
         document.getElementById('reg-pass').addEventListener('input', function() {
             const nodes = document.querySelectorAll('.bar-node');
             let val = this.value;

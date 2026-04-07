@@ -1,43 +1,25 @@
-/* 
-   ================================================================
-   SYSTEM CORE v5.0 | OPERATOR: KLYARSKIY
-   ARCHITECTURE: ULTRA-MODERN CYBERPUNK / GLASSMORPHISM
-   BUILD: 2026_FINAL_STABLE
-   ================================================================
-*/
-
 @import url('https://googleapis.com');
 
-/* --- 1. SYSTEM VARIABLES [0-100] --- */
 :root {
-    /* Base Color Palette */
     --bg-black: #020406;
     --bg-deep: #05070a;
     --panel-hex: rgba(13, 17, 23, 0.95);
     --panel-glass: rgba(13, 17, 23, 0.7);
-    
-    /* Accents & Neon */
     --accent: #00ffa3;
     --accent-dim: #1b4332;
     --accent-glow: rgba(0, 255, 163, 0.4);
     --accent-border: rgba(0, 255, 163, 0.15);
-    
-    /* UI States */
     --warning: #ffcc00;
     --warning-glow: rgba(255, 204, 0, 0.3);
     --error: #ff4747;
     --error-glow: rgba(255, 71, 71, 0.4);
     --info: #00d1ff;
     --success: #70e000;
-    
-    /* Typography */
     --t-ultra: #ffffff;
     --t-high: #e6edf3;
     --t-mid: #8b949e;
     --t-low: #484f58;
     --t-dark: #21262d;
-
-    /* Constants */
     --radius-sm: 4px;
     --radius-md: 8px;
     --ease-cyber: cubic-bezier(0.19, 1, 0.22, 1);
@@ -45,7 +27,6 @@
     --scan-speed: 4s;
 }
 
-/* --- 2. RESET & GLOBAL BASE [101-200] --- */
 * {
     margin: 0;
     padding: 0;
@@ -75,7 +56,6 @@ body {
     background-attachment: fixed;
 }
 
-/* --- 3. SCROLLBAR ARCHITECTURE [201-250] --- */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg-black); }
 ::-webkit-scrollbar-thumb { 
@@ -88,7 +68,6 @@ body {
     box-shadow: 0 0 15px var(--accent-glow); 
 }
 
-/* --- 4. SCANLINE & NOISE EFFECTS [251-300] --- */
 .scanline {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 6px;
@@ -103,7 +82,6 @@ body {
     100% { transform: translateY(100vh); }
 }
 
-/* --- 5. HEADER & NAVIGATION [301-400] --- */
 header {
     background: var(--panel-glass);
     backdrop-filter: var(--blur-fx);
@@ -178,7 +156,6 @@ nav {
 .nav-item:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
 .nav-item:hover::before, .nav-item:hover::after { opacity: 1; transform: translateX(0); }
 
-/* --- 6. CYBERPUNK BUTTONS [401-480] --- */
 .btn-main {
     position: relative;
     padding: 14px 35px;
@@ -213,7 +190,6 @@ nav {
     filter: grayscale(1);
 }
 
-/* --- 7. TERMINAL CARDS [481-550] --- */
 .terminal-card {
     background: var(--panel-hex);
     backdrop-filter: var(--blur-fx);
@@ -259,7 +235,6 @@ nav {
     50% { opacity: 0.3; transform: scale(1.2); }
 }
 
-/* --- 8. INPUT SYSTEM [551-600] --- */
 input, textarea, select {
     width: 100%;
     background: rgba(0, 0, 0, 0.6);
@@ -278,7 +253,6 @@ input:focus {
     box-shadow: 0 0 15px rgba(0, 255, 163, 0.1);
 }
 
-/* --- 9. GRID & UTILS [601-650] --- */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -289,20 +263,13 @@ input:focus {
 .text-error { color: var(--error); text-shadow: 0 0 10px var(--error-glow); }
 .text-warning { color: var(--warning); text-shadow: 0 0 10px var(--warning-glow); }
 
-/* --- 10. ADAPTIVE LAYOUT [651-700] --- */
 @media (max-width: 1024px) {
     header { padding: 0 4%; }
     nav { gap: 20px; }
 }
 
 @media (max-width: 768px) {
-    nav { display: none; } /* Скрываем меню на мобилках */
+    nav { display: none; }
     header { height: 70px; }
     .logo-text { font-size: 1.1rem; }
 }
-
-/* 
-   END OF CORE STYLE ENGINE.
-   OPERATOR: KLYARSKIY // SYSTEM_READY
-   BUILD_ID: #4421-X
-*/

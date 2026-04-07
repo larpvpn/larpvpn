@@ -4,21 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LarpVPN | Твой ключ к свободе</title>
-    <!-- Подключаем твой стиль на 600+ строк -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Эффект сканирующей линии -->
     <div class="scanline"></div>
 
     <header>
-        <!-- 1. ЛОГОТИП -->
         <a href="index.html" class="logo-wrap">
             <div class="logo-icon"></div>
             <div class="logo-text">LARP<span>VPN</span></div>
         </a>
 
-        <!-- 2. НАВИГАЦИЯ -->
         <nav id="main-nav">
             <a href="#pricing" class="nav-item">ТАРИФЫ</a>
             <a href="#download" class="nav-item" style="color: var(--accent);">СКАЧАТЬ</a>
@@ -27,7 +23,6 @@
             <a href="support.html" class="nav-item" style="color: var(--warning);">ПОДДЕРЖКА</a>
         </nav>
 
-        <!-- 3. КНОПКА ВХОДА (Управляется скриптом внизу) -->
         <div id="auth-zone">
             <a href="login.html" id="auth-btn" class="btn-main">ВХОД_В_СИСТЕМУ</a>
         </div>
@@ -35,7 +30,6 @@
 
     <main style="max-width: 1400px; margin: 0 auto; padding: 40px 20px;">
         
-        <!-- ГЛАВНЫЙ БЛОК (HERO) -->
         <section style="text-align: center; padding: 100px 0 80px;">
             <h1 class="logo-text" style="font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1; margin-bottom: 25px;">
                 LARPVPN — ТВОЙ КЛЮЧ К <br><span>СВОБОДЕ В ИНТЕРНЕТЕ</span>
@@ -45,7 +39,6 @@
                 Твой провайдер больше не увидит, что ты делаешь в сети.
             </p>
             
-            <!-- ALERT СТАТУСА -->
             <div class="terminal-card" style="display: inline-block; border-color: var(--error); border-style: dashed; padding: 15px 40px; background: rgba(255, 71, 71, 0.05);">
                 <div class="status-bar">
                     <div class="indicator" style="background: var(--error); box-shadow: 0 0 15px var(--error);"></div>
@@ -56,7 +49,6 @@
             </div>
         </section>
 
-        <!-- ТАРИФНЫЕ ПЛАНЫ (5 ШТУК) -->
         <h2 id="pricing" style="text-align: center; font-family: 'Orbitron'; letter-spacing: 10px; margin-bottom: 50px; color: var(--accent);">УРОВНИ_ДОСТУПА</h2>
         <div class="card-grid" style="margin-bottom: 120px;">
             <div class="terminal-card">
@@ -73,7 +65,6 @@
                 <button onclick="buyPlan('3_MONTHS')" class="btn-main" style="width: 100%;">ВЫБРАТЬ</button>
             </div>
 
-            <!-- ПОПУЛЯРНЫЙ ТАРИФ -->
             <div class="terminal-card" style="border: 2px solid var(--warning); transform: scale(1.08); z-index: 10; background: rgba(255, 204, 0, 0.02);">
                 <div class="status-bar"><div class="indicator" style="background: var(--warning);"></div><span class="text-warning">MOST_POPULAR</span></div>
                 <h2 class="text-warning" style="margin: 15px 0;">450₽</h2>
@@ -96,16 +87,14 @@
             </div>
         </div>
 
-        <!-- СЕКЦИЯ ЗАГРУЗКИ (ТВОЙ EXE ТУТ) -->
         <h2 id="download" style="text-align: center; font-family: 'Orbitron'; letter-spacing: 10px; margin-bottom: 50px;">DOWNLOAD_CENTRAL</h2>
+
         <section class="card-grid" style="max-width: 1000px; margin: 0 auto 120px;">
             <div class="terminal-card" style="text-align: center; border-bottom: 3px solid var(--info);">
                 <div class="status-bar"><span>X64_SYSTEM</span></div>
                 <div style="font-size: 3.5rem; margin: 20px 0;">🪟</div>
                 <h3 style="font-family: 'Orbitron'; margin-bottom: 15px;">WINDOWS_CLIENT</h3>
                 <p style="font-size: 0.7rem; color: var(--t-low); margin-bottom: 25px;">Версия 1.0.4 Stable / .exe</p>
-                
-                <!-- КНОПКА ДЛЯ ТВОЕГО ФАЙЛА -->
                 <a href="downloads/LarpVPN_Setup_v1.0.exe" download class="btn-main" style="width: 100%; border-color: var(--info); color: var(--info);">
                     СКАЧАТЬ .EXE
                 </a>
@@ -120,7 +109,6 @@
             </div>
         </section>
 
-        <!-- ТЕХНИЧЕСКИЙ БЛОК -->
         <h2 id="tech" style="text-align: center; font-family: 'Orbitron'; letter-spacing: 10px; margin-bottom: 50px;">TECH_SPECIFICATIONS</h2>
         <section class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 120px;">
             <div class="terminal-card">
@@ -153,12 +141,9 @@
         <p style="color: var(--t-dark); font-size: 0.6rem; letter-spacing: 2px;">© 2026 LARPVPN CORE INTERFACE. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- ГЛОБАЛЬНЫЙ СКРИПТ (СИНХРОНИЗАЦИЯ) -->
     <script>
-        // 1. ЛОГИКА ПОКУПКИ
         function buyPlan(plan) {
             localStorage.setItem('userSubscription', plan);
-            // Если вошел - в Дашборд, если нет - на регистрацию
             if (localStorage.getItem('userLogin')) {
                 window.location.href = 'dashboard.html';
             } else {
@@ -166,14 +151,12 @@
             }
         }
 
-        // 2. ДИНАМИЧЕСКИЙ ИНТЕРФЕЙС
         document.addEventListener('DOMContentLoaded', () => {
             const user = localStorage.getItem('userLogin');
             const authBtn = document.getElementById('auth-btn');
             const nav = document.getElementById('main-nav');
 
             if (user) {
-                // Если юзер в системе - меняем "ВХОД" на "ВЫХОД"
                 authBtn.innerText = 'ВЫХОД';
                 authBtn.style.color = 'var(--error)';
                 authBtn.style.borderColor = 'var(--error)';
@@ -188,7 +171,6 @@
                     }
                 };
 
-                // Добавляем пункт ДАШБОРД в меню
                 if (!document.getElementById('dash-link')) {
                     const dashLink = document.createElement('a');
                     dashLink.href = 'dashboard.html';
@@ -201,7 +183,6 @@
             }
         });
 
-        // Плавный скролл по якорям
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();

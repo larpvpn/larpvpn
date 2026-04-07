@@ -8,8 +8,6 @@
     <style>
         body { animation: fadeIn 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        
-        /* Стили лоадера */
         #loader { display: none; text-align: center; }
         .spinner {
             width: 60px; height: 60px;
@@ -28,21 +26,18 @@
 
     <main style="height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
         
-        <!-- ЛОАДЕР (ПОЯВЛЯЕТСЯ ПРИ ВХОДЕ) -->
         <div id="loader">
             <div class="spinner"></div>
             <h2 class="logo-text">DECRYPTING<span>...</span></h2>
             <p id="load-status" style="font-family:'JetBrains Mono'; color:var(--accent); font-size:0.7rem; margin-top:10px;">VALIDATING_ACCESS_KEYS</p>
         </div>
 
-        <!-- КАРТОЧКА ВХОДА -->
         <div id="login-card" class="terminal-card" style="width: 100%; max-width: 420px; border-bottom: 5px solid var(--accent);">
             <div class="logo-wrap" style="justify-content: center; margin-bottom: 40px;">
                 <div class="logo-icon"></div>
                 <div class="logo-text">SYSTEM<span>_AUTH</span></div>
             </div>
 
-            <!-- СООБЩЕНИЕ ОБ ОШИБКЕ -->
             <div id="auth-error" style="display: none; border: 1px solid var(--error); background: rgba(255, 71, 71, 0.05); color: var(--error); padding: 12px; font-family:'JetBrains Mono'; font-size: 0.7rem; margin-bottom: 20px; text-align: center;">
                 [!] ACCESS_DENIED: INVALID_KEY
             </div>
@@ -80,16 +75,13 @@
             const loader = document.getElementById('loader');
             const statusText = document.getElementById('load-status');
 
-            // 1. Извлекаем "базу данных"
             let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
 
-            // 2. Ищем совпадение
             const userFound = allUsers.find(u => 
                 u.login.toLowerCase() === loginVal.toLowerCase() && u.pass === passVal
             );
 
             if (userFound) {
-                // УСПЕХ: Запускаем анимацию входа
                 card.style.display = 'none';
                 loader.style.display = 'block';
                 errorBox.style.display = 'none';
@@ -103,15 +95,12 @@
                     
                     if (progress >= 100) {
                         clearInterval(interval);
-                        // Сохраняем активного юзера
                         localStorage.setItem('userLogin', userFound.login);
-                        // Переходим в кабинет
                         window.location.href = 'dashboard.html';
                     }
                 }, 300);
 
             } else {
-                // ОШИБКА
                 errorBox.style.display = 'block';
                 errorBox.innerText = "[!] ОШИБКА: НЕВЕРНЫЙ ЛОГИН ИЛИ ПАРОЛЬ";
                 document.getElementById('login-pass').value = '';

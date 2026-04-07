@@ -23,23 +23,19 @@
 
     <main style="padding: 40px 8%; max-width: 1400px; margin: 0 auto;">
         
-        <!-- 1. ВЕРХНЯЯ ПАНЕЛЬ СТАТИСТИКИ -->
         <section class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 30px;">
-            <!-- Профиль -->
             <div class="terminal-card" style="border-left: 4px solid var(--accent);">
                 <div class="status-bar"><span>OPERATOR_ID</span></div>
                 <h3 id="user-display" style="font-family: 'Orbitron'; font-size: 1.5rem; color: var(--accent);">LOADING...</h3>
                 <p style="font-size: 0.65rem; color: var(--t-low); margin-top: 8px;">STATUS: IDENTIFIED</p>
             </div>
 
-            <!-- Подписка (ДИНАМИЧЕСКАЯ) -->
             <div class="terminal-card" id="sub-card" style="border-left: 4px solid var(--error);">
                 <div class="status-bar"><span>SUBSCRIPTION_STATUS</span></div>
                 <h3 id="sub-name" style="font-family: 'Orbitron'; font-size: 1.5rem; color: var(--error);">NO_ACTIVE_PLAN</h3>
                 <p id="sub-desc" style="font-size: 0.65rem; color: var(--t-low); margin-top: 8px;">ACCESS_RESTRICTED</p>
             </div>
 
-            <!-- Трафик -->
             <div class="terminal-card" style="border-left: 4px solid var(--info);">
                 <div class="status-bar"><span>VPN_TRAFFIC_USAGE</span></div>
                 <h3 id="vpn-traffic" style="font-family: 'Orbitron'; font-size: 1.5rem; color: var(--t-ultra);">0.00 KB</h3>
@@ -47,7 +43,6 @@
             </div>
         </section>
 
-        <!-- 2. ЦЕНТРАЛЬНЫЙ БЛОК: CONNECTION LOCKED -->
         <section class="terminal-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; text-align: center; border-style: dashed; margin-bottom: 30px;">
             <div class="logo-icon" style="width: 50px; height: 50px; margin-bottom: 30px; opacity: 0.1; filter: grayscale(1);"></div>
             <h2 class="text-error" style="font-family: 'Orbitron'; letter-spacing: 8px; font-size: 2rem;">CONNECTION_LOCKED</h2>
@@ -59,10 +54,8 @@
             <button disabled class="btn-main" style="opacity: 0.2; cursor: not-allowed;">OFFLINE</button>
         </section>
 
-        <!-- 3. НИЖНИЙ РЯД: ТЕСТ СКОРОСТИ И ПАРОЛЬ -->
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
             
-            <!-- СКОРОСТЬ -->
             <div class="terminal-card" style="text-align: center; padding: 50px;">
                 <div class="status-bar"><span>NETWORK_DIAGNOSTICS_v5.1</span></div>
                 <div style="margin: 30px 0;">
@@ -76,13 +69,12 @@
                 <button id="run-test" class="btn-main" style="width: 100%; max-width: 400px;">RUN_SPEED_TEST</button>
             </div>
 
-            <!-- ПАРОЛЬ -->
             <div class="terminal-card" style="border-left: 4px solid var(--warning);">
                 <div class="status-bar"><div class="indicator" style="background: var(--warning);"></div><span>SECURITY_VAULT</span></div>
                 <h4 style="font-family: 'Orbitron'; font-size: 0.9rem; margin: 20px 0;">CHANGE_KEY</h4>
                 <form id="change-pass-form" style="display: flex; flex-direction: column; gap: 15px;">
-                    <input type="password" required placeholder="OLD_MASTER_KEY" style="border-left-color: var(--warning);">
-                    <input type="password" required placeholder="NEW_ENCRYPTION_KEY">
+                    <input type="password" id="old-pass" required placeholder="OLD_MASTER_KEY" style="border-left-color: var(--warning);">
+                    <input type="password" id="new-pass" required placeholder="NEW_ENCRYPTION_KEY">
                     <button type="submit" class="btn-main" style="border-color: var(--warning); color: var(--warning); padding: 18px; font-size: 0.7rem;">UPDATE_ACCESS</button>
                 </form>
             </div>
@@ -92,12 +84,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Инициализация Профиля (Имя из Register)
             const userDisp = document.getElementById('user-display');
             const savedLogin = localStorage.getItem('userLogin') || 'ANONYMOUS_USER';
             userDisp.innerText = savedLogin.toUpperCase();
 
-            // 2. Инициализация Подписки (Выбранной на Index)
             const subName = document.getElementById('sub-name');
             const subDesc = document.getElementById('sub-desc');
             const subCard = document.getElementById('sub-card');
@@ -111,7 +101,6 @@
                 subCard.style.borderLeftColor = "var(--info)";
             }
 
-            // 3. Логика Теста Скорости + Трафик
             const testBtn = document.getElementById('run-test');
             const speedVal = document.getElementById('speed-value');
             const speedBar = document.getElementById('speed-bar');
@@ -122,7 +111,7 @@
 
             testBtn.addEventListener('click', function() {
                 if (!activeSub) {
-                    alert('ACCESS_DENIED: Вы не выбрали тарифный план на главной странице!');
+                    alert('ACCESS_DENIED: Вы не выбрали тарифный план!');
                     return;
                 }
 
@@ -135,29 +124,44 @@
 
                 let interval = setInterval(() => {
                     current += (target / 50);
-                    sessionTraffic += (Math.random() * 0.8); // Трафик растет только здесь
+                    sessionTraffic += (Math.random() * 0.8);
 
                     if (current >= target) {
-                        current = target;
+                        current = parseFloat(target);
                         clearInterval(interval);
                         this.disabled = false;
                         this.innerText = 'REPEAT_SCAN';
-                        speedStatus.innerText = 'TEST_COMPLETE: YOUR_LINK_IS_OPTIMAL';
+                        speedStatus.innerText = 'TEST_COMPLETE';
                     }
-
+                    
                     speedVal.innerText = current.toFixed(1);
-                    speedBar.style.width = (current / 110 * 100) + '%';
+                    speedBar.style.width = (current / 100 * 100) + '%';
                     trafDisp.innerText = sessionTraffic.toFixed(2) + ' MB';
                 }, 40);
             });
 
-            // 4. Логика Выхода
-            document.getElementById('logout-btn').onclick = (e) => {
+            document.getElementById('change-pass-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const oldP = document.getElementById('old-pass').value;
+                const newP = document.getElementById('new-pass').value;
+                let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+                let userIndex = allUsers.findIndex(u => u.login === savedLogin && u.pass === oldP);
+
+                if (userIndex !== -1) {
+                    allUsers[userIndex].pass = newP;
+                    localStorage.setItem('allUsers', JSON.stringify(allUsers));
+                    alert('ACCESS_KEY_UPDATED');
+                    this.reset();
+                } else {
+                    alert('ERROR: INVALID_OLD_KEY');
+                }
+            });
+
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
                 e.preventDefault();
                 localStorage.removeItem('userLogin');
-                localStorage.removeItem('userSubscription');
                 window.location.href = 'index.html';
-            };
+            });
         });
     </script>
 </body>

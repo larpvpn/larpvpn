@@ -6,7 +6,6 @@
     <title>LarpVPN | Support Center v7.0</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Анимации и стили для 100% стабильности */
         #user-view, #admin-view { display: none; }
         .ticket-item { 
             border-left: 5px solid var(--accent); 
@@ -15,7 +14,6 @@
             animation: slideIn 0.4s ease-out;
         }
         @keyframes slideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
-        
         .admin-badge {
             color: var(--error);
             border: 1px solid var(--error);
@@ -43,7 +41,6 @@
 
     <main style="padding: 60px 8%; max-width: 1200px; margin: 0 auto;">
         
-        <!-- ЧАСТЬ 1: ФОРМА ДЛЯ ЮЗЕРА -->
         <section id="user-view">
             <div class="terminal-card" style="max-width: 800px; margin: 0 auto; border-top: 4px solid var(--accent);">
                 <div class="status-bar"><span>SECURE_CHANNEL: ACTIVE</span></div>
@@ -61,7 +58,6 @@
             </div>
         </section>
 
-        <!-- ЧАСТЬ 2: ПАНЕЛЬ ДЛЯ АДМИНА -->
         <section id="admin-view">
             <div class="terminal-card" style="border-color: var(--warning); margin-bottom: 40px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
@@ -71,24 +67,19 @@
                 <button onclick="cleanDB()" class="btn-main" style="border-color:var(--error); color:var(--error); font-size:0.6rem;">WIPE_DB</button>
             </div>
 
-            <div id="tickets-render-zone">
-                <!-- Сюда влетят сообщения -->
-            </div>
+            <div id="tickets-render-zone"></div>
         </section>
 
     </main>
 
     <script>
-        // ЕДИНЫЙ КЛЮЧ - ОДИН ДЛЯ ВСЕХ
         const MASTER_KEY = 'ULTIMATE_TICKET_DB_STABLE';
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Кто сейчас залогинен?
             const user = localStorage.getItem('userLogin') || 'GUEST';
             const admins = ['admin', 'grisha', 'klyarskiy@gmail.com'];
             const isAdmin = admins.includes(user.toLowerCase());
 
-            // Элементы
             const uView = document.getElementById('user-view');
             const aView = document.getElementById('admin-view');
             const myLoginInput = document.getElementById('my-login');
@@ -96,7 +87,6 @@
 
             myLoginInput.value = user.toUpperCase();
 
-            // 2. Показываем нужный интерфейс
             if (isAdmin) {
                 aView.style.display = 'block';
                 indicator.style.display = 'inline-block';
@@ -105,17 +95,14 @@
                 uView.style.display = 'block';
             }
 
-            // 3. ЛОГИКА ОТПРАВКИ (ДЛЯ ЮЗЕРА)
             document.getElementById('ticket-form-main')?.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const text = document.getElementById('my-message').value;
 
                 if(!text.trim()) return;
 
-                // Берем текущие тикеты
                 let tickets = JSON.parse(localStorage.getItem(MASTER_KEY)) || [];
                 
-                // Добавляем новый
                 tickets.push({
                     id: Date.now(),
                     sender: user,
@@ -123,7 +110,6 @@
                     time: new Date().toLocaleTimeString()
                 });
 
-                // Сохраняем обратно
                 localStorage.setItem(MASTER_KEY, JSON.stringify(tickets));
 
                 alert('[ SYSTEM ]: ТИКЕТ УСПЕШНО ПЕРЕДАН В ОЧЕРЕДЬ');
@@ -131,7 +117,6 @@
             });
         });
 
-        // 4. ЛОГИКА ОТОБРАЖЕНИЯ (ДЛЯ АДМИНА)
         function renderForAdmin() {
             const container = document.getElementById('tickets-render-zone');
             const countLabel = document.getElementById('t-count');
@@ -144,7 +129,6 @@
                 return;
             }
 
-            // Рендерим список
             container.innerHTML = data.reverse().map(t => `
                 <div class="terminal-card ticket-item">
                     <div class="status-bar">
@@ -160,16 +144,14 @@
             `).join('');
         }
 
-        // 5. УДАЛИТЬ/ЗАКРЫТЬ ТИКЕТ
         window.resolve = (id) => {
             let data = JSON.parse(localStorage.getItem(MASTER_KEY)) || [];
             data = data.filter(t => t.id.toString() !== id.toString());
             localStorage.setItem(MASTER_KEY, JSON.stringify(data));
-            renderForAdmin(); // Обновляем список сразу
+            renderForAdmin();
             alert('Тикет закрыт.');
         };
 
-        // 6. ПОЛНАЯ ОЧИСТКА (ДЛЯ ТЕСТОВ)
         window.cleanDB = () => {
             if(confirm('СТЕРЕТЬ ВСЕ ТИКЕТЫ?')) {
                 localStorage.setItem(MASTER_KEY, '[]');
